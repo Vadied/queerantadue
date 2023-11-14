@@ -4,7 +4,6 @@ export default {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@tremor/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     transparent: 'transparent',
@@ -92,5 +91,4 @@ export default {
         /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/
     }
   ],
-  plugins: [require('@headlessui/tailwindcss')]
 } satisfies Config;

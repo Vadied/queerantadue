@@ -1,30 +1,23 @@
 import './globals.css';
 
-import { Analytics } from '@vercel/analytics/react';
-import Nav from './nav';
-import Toast from './toast';
-import { Suspense } from 'react';
+import getServerSession from 'next-auth';
+import { authOptions } from '@/api/auth/[...nextauth]/route';
+import Provider from '@/ui/provider';
 
 export const metadata = {
-  title: 'Next.js App Router + NextAuth + Tailwind CSS',
-  description:
-    'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, ESLint, and Prettier.'
+  title: 'Queerantadue',
+  description: 'Your boardgame night manager'
 };
 
-export default function RootLayout({
-  children
-}: {
+type Props = {
   children: React.ReactNode;
-}) {
+};
+export default async function RootLayout({ children }: Props) {
+  const { session } = await getServerSession(authOptions);
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
-        <Suspense>
-          <Nav />
-        </Suspense>
-        {children}
-        <Analytics />
-        <Toast />
+        <Provider session={session}>{children}</Provider>
       </body>
     </html>
   );

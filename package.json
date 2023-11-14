@@ -8,9 +8,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.17",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.0.18",
-    "@tremor/react": "^3.10.0",
+    "@mui/material": "^5.14.18",
     "@types/js-cookie": "^3.0.5",
     "@types/node": "20.8.9",
     "@types/react": "18.2.33",
@@ -21,8 +22,11 @@
     "eslint": "8.52.0",
     "eslint-config-next": "14.0.0",
     "js-cookie": "^3.0.5",
+    "mongodb": "^6.2.0",
+    "mongoose": "^8.0.0",
+    "mongoose-autopopulate": "^1.1.0",
     "next": "14.0.0",
-    "next-auth": "5.0.0-beta.3",
+    "next-auth": "4.24.5",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "prop-types": "^15.8.1",
@@ -30,7 +34,8 @@
     "react-dom": "18.2.0",
     "server-only": "^0.0.1",
     "tailwindcss": "^3.3.5",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "zod": "^3.22.4"
   },
   "prettier": {
     "arrowParens": "always",
