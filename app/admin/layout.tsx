@@ -1,8 +1,9 @@
-import { Suspense } from 'react';
+import { Suspense, ReactNode } from 'react';
 import Link from 'next/link';
 import { Box } from '@mui/material';
 import { Sidebar, Navbar } from '@/ui';
 import Provider from '@/ui/provider';
+import { Session } from 'next-auth';
 
 export const metadata = {
   title: 'Admin',
@@ -10,13 +11,14 @@ export const metadata = {
 };
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
+  session: Session;
 };
-export default function RootLayout({ children }: Props) {
+export default function RootLayout({ children, session }: Props) {
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
-        <Provider >
+        <Provider session={session}>
           <Suspense>
             <Navbar />
           </Suspense>
