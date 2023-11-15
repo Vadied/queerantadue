@@ -1,7 +1,6 @@
 export { default as Sidebar } from './admin/sidebar';
 export { default as SideElement } from './sideElement';
 export { default as Navbar } from './navbar';
-export { default as Profile } from './profile';
 export { default as Input } from './input';
 export { default as Form } from './form';
 export { default as Table } from './table';
