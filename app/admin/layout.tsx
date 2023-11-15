@@ -1,9 +1,10 @@
 import { Suspense, ReactNode } from 'react';
-import Link from 'next/link';
-import { Box } from '@mui/material';
-import { Sidebar, Navbar } from '@/ui';
-import Provider from '@/ui/provider';
 import { Session } from 'next-auth';
+import Image from 'next/image';
+import logo from '@/assets/images/logo512.png';
+
+import Provider from '@/ui/provider';
+import { Sidebar, Navbar, SideElement } from '@/ui';
 
 export const metadata = {
   title: 'Admin',
@@ -19,16 +20,15 @@ export default function RootLayout({ children, session }: Props) {
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
         <Provider session={session}>
-          <Suspense>
-            <Navbar />
-          </Suspense>
-          <Box>
-            <Sidebar>
-              <Link href="/admin/users">Users</Link>
-              <Link href="/admin/queerantatre">Queerantatrè</Link>
-            </Sidebar>
-            {children}
-          </Box>
+          <>
+            <div className="flex h-full">
+              <Sidebar>
+                <SideElement to="/admin/users">Users</SideElement>
+                <SideElement to="/admin/queerantatre">Queerantatrè</SideElement>
+              </Sidebar>
+              <div className="flex-grow p-4">{children}</div>
+            </div>
+          </>
         </Provider>
       </body>
     </html>

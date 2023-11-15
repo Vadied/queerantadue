@@ -25,6 +25,18 @@ export default {
           DEFAULT: '#ffffff', // white
           emphasis: '#374151' // gray-700
         },
+        gray: {
+          lighter: '#f9fafb', // gray-50
+          light: '#f3f4f6', // gray-100
+          DEFAULT: '#ffffff', // white
+          dark: '#374151' // gray-700
+        },
+        white: {
+          DEFAULT: '#ffffff' // white
+        },
+        black: {
+          DEFAULT: '#000000' // black
+        },
         border: {
           DEFAULT: '#e5e7eb' // gray-200
         },

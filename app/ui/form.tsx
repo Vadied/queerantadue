@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
 import { FormEvent, ReactNode } from 'react';
 
 type Props<T> = {
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  disabled: boolean;
   children: ReactNode;
 };
-const Form = <T extends {}>({ onSubmit, children }: Props<T>) => {
+const Form = <T extends {}>({ onSubmit, disabled, children }: Props<T>) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(event);
@@ -15,7 +16,9 @@ const Form = <T extends {}>({ onSubmit, children }: Props<T>) => {
   return (
     <form onSubmit={handleSubmit}>
       {children}
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={disabled}>
+        Submit
+      </button>
     </form>
   );
 };

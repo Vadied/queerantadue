@@ -9,7 +9,8 @@ import {
 
 type Props = {
   label: string;
-  value: string | string[];
+  name: string;
+  value: string;
   onChange: (event: SelectChangeEvent) => void;
   options: { value: string; label: string }[];
   multiple?: boolean;
@@ -19,6 +20,7 @@ type Props = {
 const CustomSelect = ({
   label,
   value,
+  name,
   onChange,
   options,
   error,
@@ -29,6 +31,7 @@ const CustomSelect = ({
       <InputLabel>{label}</InputLabel>
       <Select
         value={value}
+        name={name}
         onChange={onChange}
         label={label}
         multiple={multiple}

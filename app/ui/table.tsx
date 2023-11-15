@@ -1,37 +1,24 @@
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell
-} from '@mui/material';
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
-export default function UsersTable({ users }: { users: User[] }) {
+type Props = {
+  data: any[];
+  columns: { label: string; attribute: string }[];
+};
+const CustomTable = ({ data, columns }: Props) => {
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Username</TableHead>
-          <TableHead>Email</TableHead>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {users.map((user) => (
-          <TableRow key={user.id}>
-            <TableCell>{user.name}</TableCell>
-            <TableCell>{user.username}</TableCell>
-            <TableCell>{user.email}</TableCell>
-          </TableRow>
+    <div>
+      <div className={`grid grid-cols-${columns.length} gap-4 mb-8 border-b border-color-black`}>
+        {columns.map((column) => (
+          <div key={column.attribute} className="text-2xl text-bold">{column.label}</div>
         ))}
-      </TableBody>
-    </Table>
+      </div>
+      {data.map((data) => (
+        <div key={data._id} className={`grid grid-cols-${columns.length} gap-4 mb-4 border-b border-color-black`}>
+          {columns.map((column) => (
+            <div key={column.label}>{data[column.attribute]}</div>
+          ))}
+        </div>
+      ))}
+    </div>
   );
-}
+};
+
+export default CustomTable;

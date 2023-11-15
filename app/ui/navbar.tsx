@@ -20,17 +20,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex justify-between w-full mb-16 pt-3 pl-4 pr-4">
-      <Link href="/admin" className="flex gap-2 items-center">
-        <Image
-          alt="Logo Queerantadues"
-          src={profileImg}
-          width={32}
-          height={32}
-          className="object-contain"
-        />
-        <p className="logo_text">Queerantadue</p>
-      </Link>
+    <nav className="flex justify-end w-full p-4 bg-background-subtle">
 
       {/* Desktop Navigation */}
       <div className="sm:flex hidden">
