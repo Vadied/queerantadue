@@ -22,32 +22,17 @@ export const getData = async () => {
 };
 
 const FormSchema = z.object({
-  id: z.string(),
+  _id: z.string(),
   label: z.string({
     invalid_type_error: 'Please insert a label.'
   })
 });
 
-// const getSlug = async (): Promise<string> => {
-//   const slug = createSlug();
-//   const count = await category.countDocuments({ slug });
-//   if (!Number(count)) return slug;
+const Create = FormSchema.omit({});
 
-//   return getSlug();
-// };
+const Update = FormSchema.omit({});
 
-const Create = FormSchema.omit({
-  id: true
-});
-
-const Update = FormSchema.omit({
-  id: true
-});
-
-export const create = async (
-  prevState: FormState,
-  formData: FormData
-) => {
+export const create = async (prevState: FormState, formData: FormData) => {
   // Validate form fields using Zod
   const validatedFields = Create.safeParse({
     label: formData.get('label')

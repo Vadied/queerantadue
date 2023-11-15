@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 
+import profileImg from '@/assets/images/logo512.png';
+
 export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -22,7 +24,7 @@ export default function Navbar() {
       <Link href="/admin" className="flex gap-2 items-center">
         <Image
           alt="Logo Queerantadues"
-          src="/assets/images/logo512.png"
+          src={profileImg}
           width={32}
           height={32}
           className="object-contain"
@@ -37,12 +39,13 @@ export default function Navbar() {
 
           {session?.user && (
             <>
+              <Link href="/admin/quarantatre">Quarantatre</Link>
               <button type="button" onClick={handleSignOut}>
                 Sign Out
               </button>
               <Link href="/admin/profile">
                 <Image
-                  src="/assets/images/logo512.png"
+                  src={profileImg}
                   width={37}
                   height={37}
                   alt="profile image"
@@ -64,17 +67,27 @@ export default function Navbar() {
         {session?.user && (
           <div className="flex">
             <Image
-              src="/assets/images/logo512.png"
+              src={profileImg}
               width={37}
               height={37}
               alt="profile image"
               className="rounded-full"
-              onClick={() => setToggleDropdown(prev => !prev)}
+              onClick={() => setToggleDropdown((prev) => !prev)}
             />
             {toggleDropdown && (
               <div className="dropdown absolute top-10 right-0 bg-white rounded-md shadow-lg">
-                <Link href="/admin/profile" className='dropdown_link' onClick={() => setToggleDropdown(false)}>My Profile</Link>
-                <button type="button" onClick={handleSignOut} className='mt-5 w-full black_btn'>
+                <Link
+                  href="/admin/profile"
+                  className="dropdown_link"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  My Profile
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="mt-5 w-full black_btn"
+                >
                   Sign Out
                 </button>
               </div>
