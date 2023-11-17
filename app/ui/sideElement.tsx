@@ -5,19 +5,26 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 type Props = {
-  to: string;
-  children: ReactNode;
+  item: {
+    title: string;
+    path: string;
+    icon: ReactNode;
+  };
 };
 
-const SideElement = ({ to, children }: Props) => {
+const SideElement = ({ item }: Props) => {
   const pathname = usePathname();
 
-  if (pathname === to)
-    return <div className="w-full bg-gray px-3 py-2 rounded ">{children}</div>;
+  if (pathname === item.path)
+    return (
+      <div className="w-full p-5 flex gap-2 items-center rounded bg-background-lighter">
+        {item.icon} {item.title}
+      </div>
+    );
 
   return (
-    <Link href={to} className="w-full hover:bg-gray px-3 py-2 rounded ">
-      {children}
+    <Link href={item.path} className="w-full p-5 flex gap-2 items-center rounded hover:bg-background-lighter">
+      {item.icon} {item.title}
     </Link>
   );
 };

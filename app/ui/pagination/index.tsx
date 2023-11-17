@@ -9,13 +9,15 @@ import PaginationArrow from './PaginationArrow';
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const currentPage = Number(searchParams.get('p')) || 1;
+
+  if (totalPages < 2) return null;
 
   const allPages = generatePagination(currentPage, totalPages);
 
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
-    params.set('page', pageNumber.toString());
+    params.set('p', pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };
 

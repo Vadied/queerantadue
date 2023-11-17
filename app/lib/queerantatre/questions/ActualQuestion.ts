@@ -1,22 +1,27 @@
 import { Schema, models, model } from "mongoose";
 import autopopulate from "mongoose-autopopulate";
+import { ActualCategory } from "../categories/ActualCategory";
 
 const schema = new Schema(
   {
-    username: {
+    text: {
       type: String,
       required: true,
     },
-    email: {
+    answer: {
       type: String,
       required: true,
-      unique: true,
     },
-    image: String,
+    categories: [
+      {
+        type: ActualCategory.schema,
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );
 
 schema.plugin(autopopulate);
 
-export const User = models.User || model("User", schema);
+export const ActualQuestion = models.ActualQuestion || model("ActualQuestion", schema);

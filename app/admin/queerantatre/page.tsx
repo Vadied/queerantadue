@@ -1,4 +1,4 @@
-import { getDataFiltered, fetchTotalPages} from '@/lib/queerantatre/questions';
+import { getDataFiltered, fetchTotalPages } from '@/lib/queerantatre/questions/data';
 import { Table, Search, Pagination } from '@/ui';
 
 const columns = [
@@ -28,9 +28,9 @@ const Page = async ({ searchParams }: Props) => {
   });
 
   return (
-    <div>
+    <div className='h-full flex flex-col'>
       <h1 className="uppercase text-4xl mb-6">Queerantatrè</h1>
-      <div>
+      <div className="flex-grow overflow-y-scroll">
         <Search placeholder="Cerca per testo" />
         <Table data={data} columns={columns} />
         <Pagination totalPages={totalPages} />

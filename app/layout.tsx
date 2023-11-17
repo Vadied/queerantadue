@@ -10,7 +10,7 @@ type Props = {
 };
 export default async function RootLayout({ children }: Props) {
   return (
-    <html lang="en" className="h-full bg-gray-50">
+    <html lang="en" className="h-full bg-background text-text">
       <body className="h-full">{children}</body>
     </html>
   );

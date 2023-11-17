@@ -3,7 +3,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { TActualCategory, TActualQuestion } from '@/types/queerantatre.model';
 import Form from '@/ui/form';
-import { create } from '@/lib/queerantatre/questions';
+import { create } from '@/lib/queerantatre/questions/actions';
 import { Input, Select } from '@/ui';
 import { SelectChangeEvent } from '@mui/material';
 

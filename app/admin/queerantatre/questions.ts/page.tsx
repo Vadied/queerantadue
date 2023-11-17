@@ -1,4 +1,4 @@
-import { getData } from '@/lib/queerantatre/categories';
+import { getData } from '@/lib/queerantatre/categories/data';
 import CreateForm from '@/ui/admin/queerantatre/questions/create';
 
 const Page = async () => {

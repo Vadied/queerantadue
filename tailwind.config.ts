@@ -10,20 +10,14 @@ export default {
     current: 'currentColor',
     extend: {
       colors: {
-        // light mode
-        brand: {
-          faint: '#eff6ff', // blue-50
-          muted: '#bfdbfe', // blue-200
-          subtle: '#60a5fa', // blue-400
-          DEFAULT: '#3b82f6', // blue-500
-          emphasis: '#1d4ed8', // blue-700
-          inverted: '#ffffff' // white
-        },
         background: {
-          muted: '#f9fafb', // gray-50
-          subtle: '#f3f4f6', // gray-100
-          DEFAULT: '#ffffff', // white
-          emphasis: '#374151' // gray-700
+          lighter: '#2e374a', // gray-800
+          light: '#182237', // gray-900
+          DEFAULT: '#151c2c' // gray-950
+        },
+        text: {
+          light: '#b7bac1', // gray-300
+          DEFAULT: '#ffffff' // white
         },
         gray: {
           lighter: '#f9fafb', // gray-50
@@ -43,6 +37,11 @@ export default {
         ring: {
           DEFAULT: '#e5e7eb' // gray-200
         },
+        button: {
+          primary: '#5d57c9', // violet-600
+          danger: '#ef4444', // red-500
+          success: 'teal', // teal-500
+        },
         content: {
           subtle: '#9ca3af', // gray-400
           DEFAULT: '#6b7280', // gray-500
@@ -52,23 +51,21 @@ export default {
         }
       },
       boxShadow: {
-        // light
-        'input': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-        'card':
-          '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        'dropdown':
+        input: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        card: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        dropdown:
           '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
       },
       borderRadius: {
-        'small': '0.375rem',
-        'default': '0.5rem',
-        'full': '9999px'
+        small: '0.375rem',
+        default: '0.5rem',
+        full: '9999px'
       },
       fontSize: {
-        'label': '0.75rem',
-        'default': ['0.875rem', { lineHeight: '1.25rem' }],
-        'title': ['1.125rem', { lineHeight: '1.75rem' }],
-        'metric': ['1.875rem', { lineHeight: '2.25rem' }]
+        label: '0.75rem',
+        default: ['0.875rem', { lineHeight: '1.25rem' }],
+        title: ['1.125rem', { lineHeight: '1.75rem' }],
+        metric: ['1.875rem', { lineHeight: '2.25rem' }]
       }
     }
   },

@@ -1,25 +1,12 @@
 'use server';
 
 import { z } from 'zod';
-import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import connect from '@/lib//database';
-import { ActualCategory } from '@/models/ActualCategory';
+import { ActualCategory } from '@/lib/queerantatre/categories/ActualCategory';
 import { FormState, Reference } from '@/types/response.model';
-
-export const getData = async () => {
-  // Add noStore() here prevent the response from being cached.
-  noStore();
-  try {
-    await connect();
-    const data = await ActualCategory.find();
-    return data;
-  } catch (error) {
-    console.error('Database Error:', error);
-    return [];
-  }
-};
 
 const FormSchema = z.object({
   _id: z.string(),
