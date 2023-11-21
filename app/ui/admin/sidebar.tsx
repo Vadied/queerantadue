@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
 import {
@@ -35,13 +33,12 @@ const menuItems = [
   }
 ];
 
-const Sidebar = async () => {
+const Sidebar = () => {
   const { data: session } = useSession();
   const handleSignOut = () => {
     signOut();
   };
 
-  console.log(session);
   return (
     <div className="flex flex-col gap-4 bg-background-light p-5 sticky">
       <div className="flex items-center gap-5 mb-5 ">

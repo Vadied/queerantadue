@@ -15,8 +15,6 @@ const UpdateForm = ({ user }: Props) => {
   const updateWithRef = update.bind(null, user.slug);
   const [state, dispatch] = useFormState(updateWithRef, initialState);
 
-  console.log("update", update)
-
   return (
     <form action={dispatch} className="flex flex-wrap justify-between gap-5">
       <Input

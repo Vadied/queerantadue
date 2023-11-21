@@ -90,9 +90,6 @@ export const update = async (
   prevState: FormState,
   formData: FormData
 ) => {
-
-  console.log('slug', slug);
-
   // Validate form fields using Zod
   const validatedFields = Update.safeParse({
     email: formData.get('email')
@@ -135,7 +132,7 @@ export const toggleUser = async (formData: FormData) => {
     await User.updateOne(
       { slug: formData.get('slug') },
       {
-        isActive: !formData.get('isActive'),
+        isActive: false,
         updatedAt: date
       }
     );

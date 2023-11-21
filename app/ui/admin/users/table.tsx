@@ -48,11 +48,6 @@ const Table = ({ data }: Props) => {
                 </Link>
                 <form action={toggleUser}>
                   <input type="hidden" name="slug" value={user.slug} />
-                  <input
-                    type="hidden"
-                    name="isActive"
-                    value={user.isActive ? 'true' : ''}
-                  />
                   <button className="px-2 py-1 rounded text-text border-none bg-button-danger">
                     <TrashIcon width={20} height={20} />
                   </button>

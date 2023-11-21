@@ -1,5 +1,3 @@
-'use client';
-
 import { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -23,7 +21,10 @@ const SideElement = ({ item }: Props) => {
     );
 
   return (
-    <Link href={item.path} className="w-full p-5 flex gap-2 items-center rounded hover:bg-background-lighter">
+    <Link
+      href={item.path}
+      className="w-full p-5 flex gap-2 items-center rounded hover:bg-background-lighter"
+    >
       {item.icon} {item.title}
     </Link>
   );
