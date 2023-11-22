@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react';
 import {
   signIn,
-  signOut,
-  useSession,
   getProviders,
   LiteralUnion,
   ClientSafeProvider
@@ -34,7 +32,7 @@ const LoginForm = () => {
           <div key={provider.name}>
             <button
               type="button"
-              onClick={() => signIn(provider.id)}
+              onClick={() => signIn(provider.id, { callbackUrl: '/admin' })}
               className="px-2 py-1 rounded text-text border-none bg-button-primary"
             >
               Log in con {provider.name}

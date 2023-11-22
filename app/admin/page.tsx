@@ -1,9 +1,6 @@
 import Link from 'next/link';
-import { getServerSession } from 'next-auth/next';
 
 const Page = async () => {
-  const session = await getServerSession();
-  console.log(session);
   return (
     <div className="">
       <h1 className='text-3xl mb-2'>Benvenuti nel Queerantadue!</h1>

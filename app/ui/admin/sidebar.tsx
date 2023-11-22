@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
 import {
@@ -35,24 +37,24 @@ const menuItems = [
 
 const Sidebar = () => {
   const { data: session } = useSession();
+
   const handleSignOut = () => {
-    signOut();
+    signOut({ callbackUrl: '/login' });
   };
 
   return (
     <div className="flex flex-col gap-4 bg-background-light p-5 sticky">
-      <div className="flex items-center gap-5 mb-5 ">
-        {/*<Image
-          src={user?.image || noProfile}
+      <div className="flex items-center gap-5">
+        <Image
+          src={session?.user?.image || noProfile}
           width={50}
           height={50}
           alt="profile image"
           className="rounded-full object-cover"
-  />
-        <div className="flex flex-cols">
-          <div className="text-bold">{user?.username}</div>
-          <div className="text-sm text-text-light">ruolo</div>
-        </div>*/}
+        />
+        <div className="flex flex-col">
+          <div className="text-bold">{session?.user?.name}</div>
+        </div>
       </div>
       <ul className="list-none">
         {menuItems.map((item) => (

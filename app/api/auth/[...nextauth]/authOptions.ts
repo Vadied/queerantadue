@@ -1,10 +1,8 @@
-import type { NextAuthConfig } from 'next-auth';
-
 import GoogleProvider from 'next-auth/providers/google';
 import connect from '@/lib/database';
 import { User } from '@/lib/users/User';
 
-const authOptions: NextAuthConfig = {
+const authOptions = {
   pages: {
     signIn: '/login'
   },
@@ -16,30 +14,22 @@ const authOptions: NextAuthConfig = {
   ],
   callbacks: {
     async session({ session }: any) {
+      await connect();
       const sessionUser = await User.findOne({ email: session.user.email });
-      session.user._id = sessionUser?._id.toString();
+      if (!sessionUser) return session;
 
-      console.log('session', session.user);
+      session.user = {
+        name: `${sessionUser.name} ${sessionUser.surname}`,
+        email: sessionUser.email,
+        image: session.user.image || sessionUser.image || '',
+        _id: sessionUser?._id.toString()
+      };
+
       return session;
-    },
-    authorized({ auth, request }: any) {
-      const isLoggedIn = auth?.user;
-      console.log('authorized', request.nextUrl.pathname);
-      const isOnDashboard = request.nextUrl.pathname.startsWith('/admin');
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-
-        return false;
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/admin', request.nextUrl));
-      }
-
-      return true;
     },
     async signIn({ profile }: any) {
       try {
         await connect();
-
         const user = await User.findOne({ email: profile?.email || '' });
         if (!user) return false;
 
@@ -58,8 +48,7 @@ const authOptions: NextAuthConfig = {
         return false;
       }
     }
-  },
-  secret: process.env.JWT_SECRET
+  }
 };
 
 export default authOptions;
