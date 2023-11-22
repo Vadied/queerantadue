@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 import { Session } from 'next-auth';
+import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth/next';
 
-import Provider from '@/ui/provider';
-import { Navbar, Sidebar } from '@/ui';
 import authOptions from '@/api/auth/[...nextauth]/authOptions';
-import { redirect } from 'next/navigation';
+import { Navbar, Sidebar } from '@/ui';
+import Provider from '@/ui/provider';
 
 export const metadata = {
   title: 'Admin',
