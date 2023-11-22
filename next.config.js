@@ -11,15 +11,6 @@ const nextConfig = {
       },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/admin',
-        permanent: true,
-      },
-    ]
-  },
   webpack(config) {
     config.experiments = {
       ...config.experiments,
