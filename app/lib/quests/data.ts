@@ -27,14 +27,15 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     await connect();
-    const data = await Adventurers.find({
-      name: { $regex: new RegExp(query, 'i') },
-      // isActive: true
-    })
+    const condition = {
+      name: { $regex: new RegExp(query, 'i') }
+    };
+
+    const data = await Adventurers.find(condition)
       .skip(offset)
       .limit(ITEMS_PER_PAGE);
 
-    const count = await Adventurers.countDocuments({ name: { $regex: query } });
+    const count = await Adventurers.countDocuments(condition);
 
     return {
       data: data as TAdventurer[],

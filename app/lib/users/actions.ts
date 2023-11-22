@@ -4,10 +4,10 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import connect from '@/lib//database';
 import { User } from './User';
 import { FormState } from '@/types/response.model';
-import { createSlug } from '../utils';
+import connect from '@/lib//database';
+import { createSlug } from '@/lib/utils';
 
 const FormSchema = z.object({
   name: z.string({

@@ -1,0 +1,45 @@
+import Link from 'next/link';
+import { PlusCircleIcon } from '@heroicons/react/24/outline';
+
+import { getDataFiltered } from '@/lib/queerantatre/questions/data';
+import { Pagination, Search } from '@/ui';
+import Table from '@/ui/admin/queerantatre/questions/table';
+
+type Props = {
+  searchParams?: {
+    q?: string;
+    p?: string;
+  };
+};
+const Page = async ({ searchParams }: Props) => {
+  const query = searchParams?.q || '';
+  const currentPage = Number(searchParams?.p) || 1;
+  const { totalPages = 0, data = [] } = await getDataFiltered(
+    query,
+    currentPage
+  );
+
+  return (
+    <div className="bg-background-light p-5 rounded">
+      <div className="flex flex-wrap justify-between mb-4">
+        <Search placeholder="Cerca domanda per testo" />
+        <div className="flex gap-4">
+          <Link href="/admin/queerantatre/categories">
+            <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
+              Categorie
+            </button>
+          </Link>
+          <Link href="/admin/queerantatre/questions/new">
+            <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
+              <PlusCircleIcon height={20} /> Aggiungi
+            </button>
+          </Link>
+        </div>
+      </div>
+      <Table data={data} />
+      <Pagination totalPages={totalPages} />
+    </div>
+  );
+};
+
+export default Page;

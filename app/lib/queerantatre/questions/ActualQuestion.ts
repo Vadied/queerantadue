@@ -4,6 +4,11 @@ import { ActualCategory } from "../categories/ActualCategory";
 
 const schema = new Schema(
   {
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     text: {
       type: String,
       required: true,

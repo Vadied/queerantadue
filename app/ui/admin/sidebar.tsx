@@ -33,7 +33,7 @@ const menuItems = [
       },
       {
         title: 'Queerantatre',
-        path: '/admin/queerantatre',
+        path: '/admin/queerantatre/questions',
         icon: <QuestionMarkCircleIcon width={20} />
       }
     ]

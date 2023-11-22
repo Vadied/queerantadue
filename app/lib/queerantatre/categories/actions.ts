@@ -9,9 +9,11 @@ import { ActualCategory } from '@/lib/queerantatre/categories/ActualCategory';
 import { FormState, Reference } from '@/types/response.model';
 
 const FormSchema = z.object({
-  _id: z.string(),
   label: z.string({
     invalid_type_error: 'Please insert a label.'
+  }),
+  code: z.string({
+    invalid_type_error: 'Please insert a code.'
   })
 });
 
@@ -22,11 +24,15 @@ const Update = FormSchema.omit({});
 export const create = async (prevState: FormState, formData: FormData) => {
   // Validate form fields using Zod
   const validatedFields = Create.safeParse({
-    label: formData.get('label')
+    label: formData.get('label'),
+    code: formData.get('code')
   });
+
+  console.log('create', formData);
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
+    console.log('validatedFields', validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create category.'
@@ -34,12 +40,13 @@ export const create = async (prevState: FormState, formData: FormData) => {
   }
 
   // Prepare data for insertion into the database
-  const { label } = validatedFields.data;
+  const { label, code } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
     await ActualCategory.create({
       label,
+      code,
       createdAt: date,
       updatedAt: date
     });
@@ -55,38 +62,40 @@ export const create = async (prevState: FormState, formData: FormData) => {
 };
 
 export const update = async (
-  ref: Reference,
+  slug: string,
   prevState: FormState,
   formData: FormData
 ) => {
   // Validate form fields using Zod
   const validatedFields = Update.safeParse({
-    label: formData.get('label')
+    label: formData.get('label'),
+    code: formData.get('code')
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Update category.'
+      message: 'Missing Fields. Failed to Update.'
     };
   }
 
   // Prepare data for insertion into the database
-  const { label } = validatedFields.data;
+  const { label, code } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
     await ActualCategory.updateOne(
-      { _id: ref._id },
+      { code: slug },
       {
         label,
+        code,
         updatedAt: date
       }
     );
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Update category.'
+      message: 'Database Error: Failed to Update.'
     };
   }
 
@@ -94,10 +103,10 @@ export const update = async (
   redirect(`/admin/queerantatre/categories`);
 };
 
-export const deleteData = async (_id: string) => {
+export const deleteData = async (formData: FormData) => {
   try {
     await connect();
-    await ActualCategory.deleteOne({ _id });
+    await ActualCategory.deleteOne({ _id: formData.get('_id') });
 
     revalidatePath('/admin/queerantatre/categories');
     return { message: 'Deleted category' };

@@ -13,7 +13,7 @@ export const getData = async () => {
   noStore();
   try {
     await connect();
-    const data = await ActualQuestion.find();
+    const data = await ActualQuestion.find().lean();
     return data as TActualQuestion[];
   } catch (error) {
     console.error('Database Error:', error);
@@ -22,32 +22,27 @@ export const getData = async () => {
 };
 
 export const getDataFiltered = async (query: string, currentPage: number) => {
-  if (currentPage < 1) return [];
+  if (currentPage < 1) return {};
 
   noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     await connect();
-    const data = await ActualQuestion.find({ text: { $regex: query } })
+    const condition = {
+      text: { $regex: new RegExp(query, 'i') }
+    };
+    const data = await ActualQuestion.find(condition)
       .skip(offset)
       .limit(ITEMS_PER_PAGE);
 
-    return data as TActualQuestion[];
-  } catch (error) {
-    console.error('Database Error:', error);
-    return [];
-  }
-};
+    const count = await ActualQuestion.countDocuments(condition);
 
-export const fetchTotalPages = async (query: string) => {
-  try {
-    await connect();
-    const count = await ActualQuestion.countDocuments({
-      name: { $regex: query }
-    });
-    return Math.ceil(Number(count) / ITEMS_PER_PAGE);
+    return {
+      data: data as TActualQuestion[],
+      totalPages: Math.ceil(Number(count) / ITEMS_PER_PAGE)
+    };
   } catch (error) {
     console.error('Database Error:', error);
-    return 0;
+    return {};
   }
 };

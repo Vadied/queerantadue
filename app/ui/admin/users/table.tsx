@@ -16,7 +16,6 @@ const Table = ({ data }: Props) => {
         <tr>
           <td className="p-2">Nome</td>
           <td className="p-2">Email</td>
-          <td className="p-2">Creato il</td>
           <td className="p-2">Status</td>
           <td className="p-2">Azioni</td>
         </tr>
@@ -37,12 +36,11 @@ const Table = ({ data }: Props) => {
               </div>
             </td>
             <td className="p-2">{user.email}</td>
-            <td className="p-2">{user.createdAt?.toString().slice(4, 16)}</td>
             <td className="p-2">{user.isActive ? 'active' : 'passive'}</td>
             <td className="p-2">
               <div className="flex gap-2">
                 <Link href={`/admin/users/${user.slug}`}>
-                  <button className="px-2 py-1 rounded text-text border-none bg-button-success">
+                  <button className="px-2 py-1 rounded text-text border-none bg-button-primary">
                     <PencilIcon width={20} height={20} />
                   </button>
                 </Link>

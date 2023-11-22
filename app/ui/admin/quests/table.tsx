@@ -15,7 +15,6 @@ const Table = ({ data }: Props) => {
           <td className="p-2">Nome</td>
           <td className="p-2">Email</td>
           <td className="p-2">Punti</td>
-          <td className="p-2">Creato il</td>
           <td className="p-2">Azioni</td>
         </tr>
       </thead>
@@ -29,11 +28,10 @@ const Table = ({ data }: Props) => {
             </td>
             <td className="p-2">{item.email}</td>
             <td className="p-2">{item.points}</td>
-            <td className="p-2">{item.createdAt?.toString().slice(4, 16)}</td>
             <td className="p-2">
               <div className="flex gap-2">
                 <Link href={`/admin/quests/${item.slug}`}>
-                  <button className="px-2 py-1 rounded text-text border-none bg-button-success">
+                  <button className="px-2 py-1 rounded text-text border-none bg-button-primary">
                     <PencilIcon width={20} height={20} />
                   </button>
                 </Link>

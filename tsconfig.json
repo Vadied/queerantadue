@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/lib/database.js"
-  ],
+, "app/admin/queerantatre/questions"  ],
   "exclude": ["node_modules"]
 }
