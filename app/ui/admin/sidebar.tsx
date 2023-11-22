@@ -22,8 +22,13 @@ const menuItems = [
         icon: <Cog6ToothIcon width={20} />
       },
       {
-        title: 'Users',
+        title: 'Utenti',
         path: '/admin/users',
+        icon: <UserIcon width={20} />
+      },
+      {
+        title: 'Avventurieri',
+        path: '/admin/quests',
         icon: <UserIcon width={20} />
       },
       {

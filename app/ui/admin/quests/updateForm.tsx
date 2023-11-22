@@ -2,17 +2,17 @@
 
 import { useFormState } from 'react-dom';
 
-import { update } from '@/lib/users/actions';
+import { update } from '@/lib/quests/actions';
 import { FormState } from '@/types/response.model';
-import { TUser } from '@/types/user';
 import Input from '@/ui/inputs/textInput';
+import { TAdventurer } from '@/types/adventurer';
 
 type Props = {
-  user: TUser;
+  data: TAdventurer;
 };
-const UpdateForm = ({ user }: Props) => {
+const UpdateForm = ({ data }: Props) => {
   const initialState: FormState = { message: null, errors: {} };
-  const updateWithRef = update.bind(null, user.slug);
+  const updateWithRef = update.bind(null, data.slug);
   const [state, dispatch] = useFormState(updateWithRef, initialState);
 
   return (
@@ -21,10 +21,19 @@ const UpdateForm = ({ user }: Props) => {
         name="email"
         label="Email"
         type="email"
-        value={user.email}
+        value={data.email}
         required={true}
         errors={state.errors}
         placeholder="Inserisci email"
+      />
+      <Input
+        name="points"
+        label="Punti"
+        type="number"
+        value={data.points}
+        required={true}
+        errors={state.errors}
+        placeholder="Inserisci punti"
       />
 
       <button

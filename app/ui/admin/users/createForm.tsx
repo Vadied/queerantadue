@@ -29,6 +29,7 @@ const CreateForm = () => {
       <Input
         name="email"
         label="Email"
+        type="email"
         required={true}
         errors={state.errors}
         placeholder="Inserisci email"

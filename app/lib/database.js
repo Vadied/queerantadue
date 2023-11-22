@@ -9,7 +9,7 @@ const connectToDataBase = async () => {
   }
 
   if (!process.env.MONGODB_URI) {
-    console.log("Missing MONGODB_URI");
+    console.error("Missing MONGODB_URI");
     return;
   }
 
@@ -23,7 +23,7 @@ const connectToDataBase = async () => {
 
     console.log("Database connected");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

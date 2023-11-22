@@ -2,26 +2,34 @@
 
 import { useFormState } from 'react-dom';
 
-import { update } from '@/lib/users/actions';
+import { create } from '@/lib/quests/actions';
 import { FormState } from '@/types/response.model';
-import { TUser } from '@/types/user';
 import Input from '@/ui/inputs/textInput';
 
-type Props = {
-  user: TUser;
-};
-const UpdateForm = ({ user }: Props) => {
+const CreateForm = () => {
   const initialState: FormState = { message: null, errors: {} };
-  const updateWithRef = update.bind(null, user.slug);
-  const [state, dispatch] = useFormState(updateWithRef, initialState);
+  const [state, dispatch] = useFormState(create, initialState);
 
   return (
     <form action={dispatch} className="flex flex-wrap justify-between gap-5">
       <Input
+        name="name"
+        label="Nome"
+        required={true}
+        errors={state.errors}
+        placeholder="Inserisci nome"
+      />
+      <Input
+        name="surname"
+        label="Cognome"
+        required={true}
+        errors={state.errors}
+        placeholder="Inserisci cognome"
+      />
+      <Input
         name="email"
         label="Email"
         type="email"
-        value={user.email}
         required={true}
         errors={state.errors}
         placeholder="Inserisci email"
@@ -31,10 +39,10 @@ const UpdateForm = ({ user }: Props) => {
         type="submit"
         className="p-2 rounded text-text border-none bg-button-success w-full"
       >
-        Modifica
+        Crea
       </button>
     </form>
   );
 };
 
-export default UpdateForm;
+export default CreateForm;

@@ -24,7 +24,7 @@ export default function CreateForm({ categories }: Props) {
       await create(question);
       setQuestion({} as TActualQuestion);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setSubmitting(false);
     }
@@ -39,7 +39,6 @@ export default function CreateForm({ categories }: Props) {
   const handleSelectChange = (e: SelectChangeEvent) => {
     const target = e.target as HTMLInputElement;
     const { name, value } = target;
-    console.log(name, value);
 
     setQuestion({ ...question, [name]: value });
   };
