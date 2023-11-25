@@ -3,16 +3,20 @@ import Link from 'next/link';
 const Page = async () => {
   return (
     <div className="">
-      <h1 className='text-3xl mb-2'>Benvenuti nel Queerantadue!</h1>
-      <p className='mb-6'>Al momento i servizi disponibili sono:</p>
+      <h1 className="text-3xl mb-2">Benvenuti nel Queerantadue!</h1>
+      <p className="mb-6">Prossime date</p>
       <ul>
         <li>
-          <Link href="https://queerantatre.netlify.app/" target="_blank">
-            <button className='px-2 py-1 rounded text-text border-none bg-button-primary'>Queerantatre</button>
-          </Link>
+          <li>12 gennaio</li>
+          <li>16 febbraio</li>
+          <li>8 marzo</li>
+          <li>19 aprile</li>
+          <li>17 maggio</li>
+          <li>21 giugno</li>
+          <li>19 luglio</li>
         </li>
       </ul>
-    </div>             
+    </div>
   );
 };
 
