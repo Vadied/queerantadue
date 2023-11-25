@@ -1,9 +1,5 @@
-import Image from 'next/image';
-
-import noProfile from '@/assets/images/no_profile.png';
-
-import { getData } from '@/lib/quests/data';
-import UpdateForm from '@/ui/admin/quests/updateForm';
+import { getData } from '@/lib/queerantatre/questions/data';
+import UpdateForm from '@/ui/admin/queerantatre/questions/updateForm';
 
 type Props = {
   params: {
@@ -14,19 +10,16 @@ const Page = async ({ params }: Props) => {
   const { slug } = params;
   const data = await getData(slug);
   if (!data)
-    return (
-      <div className="w-full text-center">Nessun avventuriero trovato</div>
-    );
+    return <div className="w-full text-center">Nessuna domanda trovata</div>;
 
   return (
-    <div className="flex gap-8">
-      <div className="bg-background-light p-5 rounded font-bold test-test-light">
-        {data.name} {data.surname}
+    <>
+      <div className="flex gap-8">
+        <div className="flex-grow bg-background-light p-5 rounded">
+          <UpdateForm data={data} />
+        </div>
       </div>
-      <div className="flex-grow bg-background-light p-5 rounded">
-        <UpdateForm data={data} />
-      </div>
-    </div>
+    </>
   );
 };
 

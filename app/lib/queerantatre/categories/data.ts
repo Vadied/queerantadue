@@ -47,10 +47,15 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
         { code: { $regex: new RegExp(query, 'i') } }
       ]
     };
-    const data = await ActualCategory.find(condition)
+    const getData = ActualCategory.find(condition)
       .skip(offset)
-      .limit(ITEMS_PER_PAGE);
-    const count = await ActualCategory.countDocuments(condition);
+      .limit(ITEMS_PER_PAGE)
+      .sort({ updatedAt: -1 })
+      .lean();
+
+    const getCount = ActualCategory.countDocuments(condition);
+
+    const [data, count] = await Promise.all([getData, getCount]);
 
     return {
       data: data as TActualCategory[],

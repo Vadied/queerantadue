@@ -5,15 +5,12 @@ import { useFormState } from 'react-dom';
 import { create } from '@/lib/queerantatre/questions/actions';
 import { FormState } from '@/types/response.model';
 import { Select, TextArea } from '@/ui';
-import { useCategoriesContext } from '@/contexts/queerantatre';
+import { useQueerantatreContext } from '@/contexts/queerantatre';
 
-type Props = {};
-const CreateForm = ({}: Props) => {
+const CreateForm = () => {
   const initialState: FormState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(create, initialState);
-  const { categories = [] } = useCategoriesContext();
-
-  console.log("categories", categories);
+  const { categories = [] } = useQueerantatreContext();
 
   return (
     <form action={dispatch} className="flex flex-wrap gap-5">
@@ -35,10 +32,11 @@ const CreateForm = ({}: Props) => {
         label="Categorie"
         name="categories"
         multiple={true}
+        value={[]}
         errors={state.errors}
         placeholder="Scegli le categorie"
         options={categories.map((category) => ({
-          value: category.code,
+          value: category._id.toString(),
           label: category.label
         }))}
       />

@@ -23,7 +23,6 @@ const authOptions = {
       async authorize(
         credentials: Record<'email' | 'password', string> | undefined
       ) {
-        console.log('credentials', credentials);
         if (!credentials || !credentials.email || !credentials.password)
           return null;
 
@@ -31,16 +30,14 @@ const authOptions = {
           await connect();
           const user = await User.findOne({ email: credentials.email });
           
-        console.log('user', user);
           if (!user) return null;
 
           const isValid = await user.comparePassword(credentials.password);
-          console.log('isValid', isValid);
           if (!isValid) return null;
 
           return user;
         } catch (error: any) {
-          console.log('error', error);
+          console.error('error', error);
           return null;
         }
       }

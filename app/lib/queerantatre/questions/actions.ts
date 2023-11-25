@@ -25,7 +25,7 @@ const FormSchema = z.object({
   answer: z.string({
     invalid_type_error: 'Please insert an answer.'
   }),
-  categories: z.array(z.string())
+  categories: z.string()
 });
 
 const Create = FormSchema.omit({});
@@ -39,10 +39,6 @@ export const create = async (prevState: FormState, formData: FormData) => {
     answer: formData.get('answer'),
     categories: formData.get('categories')
   });
-
-  console.log('create', formData.get('text'));
-  console.log('create', formData.get('answer'));
-  console.log('create', formData.get('categories'));
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
@@ -63,7 +59,7 @@ export const create = async (prevState: FormState, formData: FormData) => {
       slug,
       text,
       answer,
-      categories,
+      categories: categories.split(','),
       createdAt: date,
       updatedAt: date
     });
@@ -100,6 +96,7 @@ export const update = async (
 
   // Prepare data for insertion into the database
   const { text, answer, categories } = validatedFields.data;
+  console.log(text, answer, categories );
   const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
@@ -108,7 +105,7 @@ export const update = async (
       {
         text,
         answer,
-        categories,
+        categories: categories.split(','),
         updatedAt: date
       }
     );

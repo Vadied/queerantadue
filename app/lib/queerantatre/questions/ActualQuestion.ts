@@ -1,5 +1,4 @@
 import { Schema, models, model } from "mongoose";
-import autopopulate from "mongoose-autopopulate";
 import { ActualCategory } from "../categories/ActualCategory";
 
 const schema = new Schema(
@@ -19,14 +18,13 @@ const schema = new Schema(
     },
     categories: [
       {
-        type: ActualCategory.schema,
+        type: Schema.Types.ObjectId,
+        ref: ActualCategory,
         default: [],
       },
     ],
   },
   { timestamps: true }
 );
-
-schema.plugin(autopopulate);
 
 export const ActualQuestion = models.ActualQuestion || model("ActualQuestion", schema);

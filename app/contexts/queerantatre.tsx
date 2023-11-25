@@ -7,31 +7,33 @@ import {
   useState,
   useContext
 } from 'react';
-import { TActualCategory } from '@/types/queerantatre.model';
+import { TActualCategory, TActualQuestion } from '@/types/queerantatre.model';
 
 const initialActualCategories: TActualCategory[] = [];
 
 const Context = createContext({
-  categories: initialActualCategories
+  categories: initialActualCategories,
 });
 
 type Props = {
-  data: TActualCategory[];
   children: ReactNode;
 };
-export const QueerantatreProvider = ({ data, children }: Props) => {
-  const [categories, setActualCategories] = useState(data);
+export const QueerantatreProvider = ({ children }: Props) => {
+  const [categories, setCategories] = useState(initialActualCategories);
 
-  useEffect(() => {
-    // Fetch the actual categories
-    fetch('/api/queerantatre/categories')
+  const getCategories = () => {
+    return fetch('/api/queerantatre/categories')
       .then((res) => res.json())
       .then((data) => {
-        setActualCategories(data);
+        setCategories(data);
       })
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  useEffect(() => {
+    Promise.all([getCategories()]);
   }, []);
 
   const value = { categories };
@@ -39,4 +41,4 @@ export const QueerantatreProvider = ({ data, children }: Props) => {
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
-export const useCategoriesContext = () => useContext(Context);
+export const useQueerantatreContext = () => useContext(Context);

@@ -13,7 +13,10 @@ export const getData = async (slug: string) => {
     const data = await Adventurers.findOne({ slug }).lean();
     if (!data) return null;
 
-    return { ...data, _id: data._id?.toString() } as TAdventurer;
+    return {
+      ...data,
+      _id: data._id?.toString()
+    } as TAdventurer;
   } catch (error) {
     console.error('Failed to fetch data:', error);
     return null;
@@ -31,11 +34,15 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
       name: { $regex: new RegExp(query, 'i') }
     };
 
-    const data = await Adventurers.find(condition)
+    const getData = Adventurers.find(condition)
       .skip(offset)
-      .limit(ITEMS_PER_PAGE);
+      .limit(ITEMS_PER_PAGE)
+      .sort({ updatedAt: -1 })
+      .lean();
 
-    const count = await Adventurers.countDocuments(condition);
+    const getCount = Adventurers.countDocuments(condition);
+
+    const [data, count] = await Promise.all([getData, getCount]);
 
     return {
       data: data as TAdventurer[],

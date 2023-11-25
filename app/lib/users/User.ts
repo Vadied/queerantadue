@@ -26,12 +26,10 @@ const schema = new Schema(
     },
     isActive: {
       type: Boolean,
-      required: true,
       default: true
     },
     password: {
       type: String,
-      required: true,
       hide: true
     },
     token: { type: String, unique: true, hide: true },
@@ -42,11 +40,10 @@ const schema = new Schema(
 
 schema.pre('save', async function (next) {
   const user = this;
+  if (!user.isModified('password') || !user.password) return next();
 
-  if (!user.isModified('password') || user.isNew) return next();
-
-  const hash = await bcrypt.hash(this.password, 10);
-  this.password = hash;
+  const hash = await bcrypt.hash(user.password, SALT);
+  user.password = hash;
 });
 
 schema.methods.comparePassword = function (password: string) {

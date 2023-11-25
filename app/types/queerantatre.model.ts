@@ -10,5 +10,5 @@ export type TActualQuestion = {
     slug: string;
     text: string;
     answer: string;
-    categories: TActualCategory[];
+    categories: string[];
 };

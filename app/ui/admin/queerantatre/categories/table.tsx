@@ -30,7 +30,7 @@ const Table = ({ data }: Props) => {
                   </button>
                 </Link>
                 <form action={deleteData}>
-                  <input type="hidden" name="_id" value={item._id} />
+                  <input type="hidden" name="_id" value={item._id.toString()} />
                   <button className="px-2 py-1 rounded text-text border-none bg-button-danger">
                     <TrashIcon width={20} height={20} />
                   </button>

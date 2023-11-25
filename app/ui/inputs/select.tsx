@@ -1,3 +1,5 @@
+import { Select, MenuItem } from '@mui/material';
+
 import { FormErrors } from '@/types/response.model';
 
 type Props = {
@@ -11,7 +13,7 @@ type Props = {
   multiple?: boolean;
   options?: { value: string; label: string }[];
 };
-const Select = ({
+const SelectInput = ({
   label,
   name,
   value,
@@ -27,7 +29,7 @@ const Select = ({
         {label}
       </label>
       <div>
-        <select
+        <Select
           className="p-2 rounded border border-width-2 border-border-lighter text-text bg-background min-w-md"
           id={name}
           name={name}
@@ -38,11 +40,11 @@ const Select = ({
         >
           {placeholder && <option value="" disabled>{placeholder} </option>}
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <MenuItem key={option.value} value={option.value}>
               {option.label}
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </Select>
       </div>
       {errors?.[name] ? (
         <div id={`${name}-error`} aria-live="polite" className="">
@@ -53,4 +55,4 @@ const Select = ({
   );
 };
 
-export default Select;
+export default SelectInput;

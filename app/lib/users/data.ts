@@ -27,14 +27,18 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     await connect();
-    const data = await User.find({
+    const getData = User.find({
       name: { $regex: new RegExp(query, 'i') },
       isActive: true
     })
       .skip(offset)
-      .limit(ITEMS_PER_PAGE);
+      .limit(ITEMS_PER_PAGE)
+      .sort({ updatedAt: -1 })
+      .lean();
 
-    const count = await User.countDocuments({ name: { $regex: query } });
+    const getCount = User.countDocuments({ name: { $regex: query } });
+
+    const [data, count] = await Promise.all([getData, getCount]);
 
     return {
       data: data as TUser[],
