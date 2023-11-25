@@ -12,7 +12,7 @@ const Page = async () => {
           </Link>
         </li>
       </ul>
-    </div>
+    </div>             
   );
 };
 
