@@ -25,20 +25,21 @@ const LoginForm = () => {
   }, []);
 
   return (
-    <div className="bg-background-lighter rounded p-10 flex flex-col gap-4">
-      <div className='text-center'>Entra nella dashboard</div>
+    <div className="flex flex-col gap-4 items-center mb-8">
       {providers &&
-        Object.values(providers).map((provider) => (
-          <div key={provider.name}>
-            <button
-              type="button"
-              onClick={() => signIn(provider.id, { callbackUrl: '/admin' })}
-              className="px-2 py-1 rounded text-text border-none bg-button-primary"
-            >
-              Log in con {provider.name}
-            </button>
-          </div>
-        ))}
+        Object.values(providers)
+          .filter((provider) => provider.name !== 'Email')
+          .map((provider) => (
+            <div key={provider.name}>
+              <button
+                type="button"
+                onClick={() => signIn(provider.id, { callbackUrl: '/admin' })}
+                className="px-2 py-1 rounded text-text border-none bg-button-primary"
+              >
+                Log in con {provider.name}
+              </button>
+            </div>
+          ))}
     </div>
   );
 };

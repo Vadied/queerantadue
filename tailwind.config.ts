@@ -19,6 +19,9 @@ export default {
           light: '#b7bac1', // gray-300
           DEFAULT: '#ffffff' // white
         },
+        link: {
+          DEFAULT: '#5d57c9' // violet-600
+        },
         gray: {
           lighter: '#f9fafb', // gray-50
           light: '#f3f4f6', // gray-100
@@ -36,6 +39,9 @@ export default {
         },
         ring: {
           DEFAULT: '#e5e7eb' // gray-200
+        },
+        danger: {
+          DEFAULT: '#ef4444', // red-500
         },
         button: {
           primary: '#5d57c9', // violet-600

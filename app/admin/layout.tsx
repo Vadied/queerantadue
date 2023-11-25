@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth/next';
 import authOptions from '@/api/auth/[...nextauth]/authOptions';
 import { Navbar, Sidebar } from '@/ui';
 import Provider from '@/ui/provider';
+import { login } from '@/assets/constants/navigation';
 
 export const metadata = {
   title: 'Admin',
@@ -17,7 +18,7 @@ type Props = {
 };
 export default async function RootLayout({ children }: Props) {
   const session: Session | null = await getServerSession(authOptions);
-  if (!session?.user) redirect('/login');
+  if (!session?.user) redirect(login.href);
 
   return (
     <Provider session={session}>

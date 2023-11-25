@@ -3,11 +3,13 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 import { User } from './User';
 import { FormState } from '@/types/response.model';
 import connect from '@/lib//database';
 import { createSlug } from '@/lib/utils';
+import { admin, login } from '@/assets/constants/navigation';
 
 const FormSchema = z.object({
   name: z.string({
@@ -43,14 +45,12 @@ const getSlug = async (): Promise<string> => {
 };
 
 export const create = async (prevState: FormState, formData: FormData) => {
-  // Validate form fields using Zod
   const validatedFields = Create.safeParse({
     name: formData.get('name'),
     surname: formData.get('surname'),
     email: formData.get('email')
   });
 
-  // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -58,14 +58,12 @@ export const create = async (prevState: FormState, formData: FormData) => {
     };
   }
 
-  // Prepare data for insertion into the database
   const { name, surname, email } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
-
     const slug = await getSlug();
-    await User.create({
+    User.create({
       slug,
       name,
       surname,
@@ -75,14 +73,13 @@ export const create = async (prevState: FormState, formData: FormData) => {
       updatedAt: date
     });
   } catch (error) {
-    // If a database error occurs, return a more specific error.
     return {
       message: 'Database Error: Failed to Create.'
     };
   }
 
-  revalidatePath('/admin/users');
-  redirect('/admin/users');
+  revalidatePath(admin.users.href);
+  redirect(admin.users.href);
 };
 
 export const update = async (
@@ -90,12 +87,10 @@ export const update = async (
   prevState: FormState,
   formData: FormData
 ) => {
-  // Validate form fields using Zod
   const validatedFields = Update.safeParse({
     email: formData.get('email')
   });
 
-  // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -103,7 +98,6 @@ export const update = async (
     };
   }
 
-  // Prepare data for insertion into the database
   const { email } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   try {
@@ -121,8 +115,8 @@ export const update = async (
     };
   }
 
-  revalidatePath('/admin/users');
-  redirect('/admin/users');
+  revalidatePath(admin.users.href);
+  redirect(admin.users.href);
 };
 
 export const toggleUser = async (formData: FormData) => {
@@ -141,5 +135,90 @@ export const toggleUser = async (formData: FormData) => {
       message: 'Database Error: Failed to Update.'
     };
   }
-  revalidatePath('/admin/users');
+  revalidatePath(admin.users.href);
 };
+
+const LoginSchema = z.object({
+  email: z.string({
+    invalid_type_error: 'Please insert an email.'
+  }),
+  password: z.string({
+    invalid_type_error: 'Please insert a password.'
+  })
+});
+
+export const addCredentials = async (
+  prevState: FormState,
+  formData: FormData
+) => {
+  const validatedFields = LoginSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password')
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Campi mancanti. Impossibile registrare le credenziali.'
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+  const date = new Date().toISOString().split('T')[0];
+  try {
+    await connect();
+    const user = await User.findOne({ email });
+    if (!user)
+      return {
+        message:
+          "La tua email non è autorizzata, fai richiesta all'amministratore"
+      };
+
+    if (user.password)
+      return {
+        message: 'Utente già registrato, fail il login per cambiare credenziali'
+      };
+
+    user.password = password;
+    user.updatedAt = date;
+    await user.save();
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Update.'
+    };
+  }
+
+  redirect(login.href);
+};
+
+// export const credentialSignIn = async (
+//   prevState: FormState,
+//   formData: FormData
+// ) => {
+//   const validatedFields = LoginSchema.safeParse({
+//     email: formData.get('email'),
+//     password: formData.get('password')
+//   });
+
+//   if (!validatedFields.success) {
+//     return {
+//       errors: validatedFields.error.flatten().fieldErrors,
+//       message: 'Campi mancanti. Impossibile registrare le credenziali.'
+//     };
+//   }
+
+//   const { email, password } = validatedFields.data;
+//   await signIn('credentials', {
+//     email,
+//     password,
+//     callbackUrl: '/admin'
+//   });
+//   try {
+//   } catch (error) {
+//     return {
+//       message: 'Database Error: Failed to Update.'
+//     };
+//   }
+
+//   redirect(admin.href);
+// };

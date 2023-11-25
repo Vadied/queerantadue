@@ -1,12 +1,50 @@
+import bcrypt from 'bcryptjs';
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+
 import connect from '@/lib/database';
 import { User } from '@/lib/users/User';
 
 const authOptions = {
   pages: {
-    signIn: '/login'
+    signIn: '/users/login'
   },
   providers: [
+    CredentialsProvider({
+      name: 'Email',
+      credentials: {
+        email: {
+          label: 'Email',
+          type: 'text',
+          placeholder: 'queerantadue@arcigay.it'
+        },
+        password: { label: 'Password', type: 'password' }
+      },
+      async authorize(
+        credentials: Record<'email' | 'password', string> | undefined
+      ) {
+        console.log('credentials', credentials);
+        if (!credentials || !credentials.email || !credentials.password)
+          return null;
+
+        try {
+          await connect();
+          const user = await User.findOne({ email: credentials.email });
+          
+        console.log('user', user);
+          if (!user) return null;
+
+          const isValid = await user.comparePassword(credentials.password);
+          console.log('isValid', isValid);
+          if (!isValid) return null;
+
+          return user;
+        } catch (error: any) {
+          console.log('error', error);
+          return null;
+        }
+      }
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
@@ -48,7 +86,8 @@ const authOptions = {
         return false;
       }
     }
-  }
+  },
+  secret: process.env.NEXTAUTH_SECRET
 };
 
 export default authOptions;

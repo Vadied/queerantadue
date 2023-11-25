@@ -4,6 +4,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { Pagination, Search } from '@/ui';
 import { getDataFiltered } from '@/lib/queerantatre/categories/data';
 import Table from '@/ui/admin/queerantatre/categories/table';
+import { admin } from '@/assets/constants/navigation';
 
 type Props = {
   searchParams?: {
@@ -23,7 +24,7 @@ const Page = async ({ searchParams }: Props) => {
     <div className="bg-background-light p-5 rounded">
       <div className="flex flex-wrap justify-between mb-4">
         <Search placeholder="Cerca categoria per nome" />
-        <Link href="/admin/queerantatre/categories/new">
+        <Link href={`${admin.queerantatre.categories.href}/new`}>
           <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
             <PlusCircleIcon height={20} /> Aggiungi
           </button>

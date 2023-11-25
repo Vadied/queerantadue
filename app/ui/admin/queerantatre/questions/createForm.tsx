@@ -13,7 +13,7 @@ const CreateForm = ({}: Props) => {
   const [state, dispatch] = useFormState(create, initialState);
   const { categories = [] } = useCategoriesContext();
 
-  console.log(categories);
+  console.log("categories", categories);
 
   return (
     <form action={dispatch} className="flex flex-wrap gap-5">

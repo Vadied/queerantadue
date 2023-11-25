@@ -8,6 +8,7 @@ import connect from '@/lib/database';
 import { ActualQuestion } from './ActualQuestion';
 import { FormState } from '@/types/response.model';
 import { createSlug } from '@/lib/utils';
+import { admin } from '@/assets/constants/navigation';
 
 const getSlug = async (): Promise<string> => {
   const slug = createSlug();
@@ -73,8 +74,8 @@ export const create = async (prevState: FormState, formData: FormData) => {
     };
   }
 
-  revalidatePath('/admin/queerantatre/questions');
-  redirect('/admin/queerantatre/questions');
+  revalidatePath(admin.queerantatre.questions.href);
+  redirect(admin.queerantatre.questions.href);
 };
 
 export const update = async (
@@ -117,8 +118,8 @@ export const update = async (
     };
   }
 
-  revalidatePath('/admin/queerantatre/questions');
-  redirect('/admin/queerantatre/questions');
+  revalidatePath(admin.queerantatre.questions.href);
+  redirect(admin.queerantatre.questions.href);
 };
 
 export const deleteData = async (formData: FormData) => {
@@ -126,7 +127,7 @@ export const deleteData = async (formData: FormData) => {
     await connect();
     await ActualQuestion.deleteOne({ _id: formData.get('_id') });
 
-    revalidatePath('/admin/queerantatre/questions');
+    revalidatePath(admin.queerantatre.questions.href);
     return { message: 'Deleted' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete category.' };

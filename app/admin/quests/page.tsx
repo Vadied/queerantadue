@@ -4,6 +4,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { getDataFiltered } from '@/lib/quests/data';
 import { Pagination, Search } from '@/ui';
 import Table from '@/ui/admin/quests/table';
+import { admin } from '@/assets/constants/navigation';
 
 type Props = {
   searchParams?: {
@@ -23,7 +24,7 @@ const Page = async ({ searchParams }: Props) => {
     <div className="bg-background-light p-5 rounded">
       <div className="flex flex-wrap justify-between mb-4">
         <Search placeholder="Cerca avventuriero per nome" />
-        <Link href="/admin/quests/new">
+        <Link href={`${admin.quests.href}/new`}>
           <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
             <PlusCircleIcon height={20} /> Aggiungi
           </button>

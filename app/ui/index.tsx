@@ -11,5 +11,7 @@ export { default as RightBar } from './rightBar';
 export { default as Input } from './inputs/textInput';
 export { default as Checkbox } from './inputs/checkbox';
 export { default as TextArea } from './inputs/textArea';
+export { default as LoadingCmp } from './loading';
 
-export { default as LoginForm } from './loginForm';
+export { default as LoginForm } from './users/loginForm';
+export { default as RegisterForm } from './users/registerForm';

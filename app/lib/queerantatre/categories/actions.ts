@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import connect from '@/lib//database';
 import { ActualCategory } from '@/lib/queerantatre/categories/ActualCategory';
 import { FormState, Reference } from '@/types/response.model';
+import { admin } from '@/assets/constants/navigation';
 
 const FormSchema = z.object({
   label: z.string({
@@ -28,11 +29,8 @@ export const create = async (prevState: FormState, formData: FormData) => {
     code: formData.get('code')
   });
 
-  console.log('create', formData);
-
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
-    console.log('validatedFields', validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create category.'
@@ -57,8 +55,8 @@ export const create = async (prevState: FormState, formData: FormData) => {
     };
   }
 
-  revalidatePath('/admin/queerantatre/categories');
-  redirect('/admin/queerantatre/categories');
+  revalidatePath(admin.queerantatre.categories.href);
+  redirect(admin.queerantatre.categories.href);
 };
 
 export const update = async (
@@ -99,8 +97,8 @@ export const update = async (
     };
   }
 
-  revalidatePath(`/admin/queerantatre/categories`);
-  redirect(`/admin/queerantatre/categories`);
+  revalidatePath(admin.queerantatre.categories.href);
+  redirect(admin.queerantatre.categories.href);
 };
 
 export const deleteData = async (formData: FormData) => {
@@ -108,7 +106,7 @@ export const deleteData = async (formData: FormData) => {
     await connect();
     await ActualCategory.deleteOne({ _id: formData.get('_id') });
 
-    revalidatePath('/admin/queerantatre/categories');
+    revalidatePath(admin.queerantatre.categories.href);
     return { message: 'Deleted category' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete category.' };

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { admin } from '@/assets/constants/navigation';
 
 export default async function IndexPage() {
   return (
@@ -9,7 +10,7 @@ export default async function IndexPage() {
       </p>
       <ul className='flex flex-wrap gap-4'>
         <li>
-          <Link href="/admin">
+          <Link href={admin.href}>
             <button className="px-2 py-1 rounded text-text border-none bg-button-primary">
               Admin
             </button>

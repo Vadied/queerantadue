@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import connect from '@/lib//database';
 import { Adventurers } from './Adventurers';
 import { FormState } from '@/types/response.model';
+import { admin } from '@/assets/constants/navigation';
 
 const FormSchema = z.object({
   name: z.string({
@@ -72,8 +73,8 @@ export const create = async (prevState: FormState, formData: FormData) => {
     };
   }
 
-  revalidatePath('/admin/quests');
-  redirect('/admin/quests');
+  revalidatePath(admin.quests.href);
+  redirect(admin.quests.href);
 };
 
 export const update = async (
@@ -113,8 +114,8 @@ export const update = async (
     };
   }
 
-  revalidatePath('/admin/quests');
-  redirect('/admin/quests');
+  revalidatePath(admin.quests.href);
+  redirect(admin.quests.href);
 };
 
 export const toggleData = async (formData: FormData) => {
@@ -133,7 +134,7 @@ export const toggleData = async (formData: FormData) => {
       message: 'Database Error: Failed to Update.'
     };
   }
-  revalidatePath('/admin/quests');
+  revalidatePath(admin.quests.href);
 };
 
 export const addPoint = async (formData: FormData) => {
@@ -153,5 +154,5 @@ export const addPoint = async (formData: FormData) => {
       message: 'Database Error: Failed to Update.'
     };
   }
-  revalidatePath('/admin/quests');
+  revalidatePath(admin.quests.href);
 };

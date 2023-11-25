@@ -1,9 +1,10 @@
-import { FormErrors } from "@/types/response.model";
+import { FormErrors } from '@/types/response.model';
 
 type Props = {
   label: string;
   name: string;
   type?: string;
+  inputRef?: any;
   placeholder?: string;
   className?: string;
   errors?: FormErrors;
@@ -14,9 +15,10 @@ const Input = ({
   label,
   name,
   value,
+  inputRef,
   required,
-  type = "text",
-  errors, 
+  type = 'text',
+  errors
 }: Props) => {
   return (
     <div className="">
@@ -25,8 +27,9 @@ const Input = ({
       </label>
       <div>
         <input
-        className="p-2 rounded border border-width-2 border-border-lighter text-text bg-background"
+          className="p-2 rounded border border-width-2 border-border-lighter text-text bg-background"
           id={name}
+          ref={inputRef}
           name={name}
           defaultValue={value}
           type={type}
@@ -36,9 +39,7 @@ const Input = ({
       </div>
       {errors?.[name] ? (
         <div id={`${name}-error`} aria-live="polite" className="">
-          {errors?.[name].map((error: string) => (
-            <p key={error}>{error}</p>
-          ))}
+          {errors?.[name].map((error: string) => <p key={error}>{error}</p>)}
         </div>
       ) : null}
     </div>
