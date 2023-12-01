@@ -8,6 +8,7 @@ type Props = {
   className?: string;
   errors?: FormErrors;
   value?: any;
+  rows?: number;
   required?: boolean;
 };
 const Input = ({
@@ -15,10 +16,11 @@ const Input = ({
   name,
   value,
   required,
+  rows = 5,
   errors, 
 }: Props) => {
   return (
-    <div className="">
+    <div className="min-w-xl">
       <label htmlFor={name} className="text-sm">
         {label}
       </label>
@@ -30,6 +32,7 @@ const Input = ({
           defaultValue={value}
           aria-describedby={`${name}-error`}
           required={required}
+          rows={rows}
         />
       </div>
       {errors?.[name] ? (

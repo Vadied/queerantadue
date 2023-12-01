@@ -2,9 +2,8 @@ import { unstable_noStore as noStore } from 'next/cache';
 
 import connect from '@/lib/database';
 import { Adventurers } from './Adventurers';
-
 import { ITEMS_PER_PAGE } from '@/assets/constants';
-import { TAdventurer } from '@/types/adventurer';
+import { TAdventurer } from '@/types/campaign.model';
 
 export const getData = async (slug: string) => {
   noStore();
@@ -45,7 +44,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
     const [data, count] = await Promise.all([getData, getCount]);
 
     return {
-      data: data as TAdventurer[],
+      data: data.map((d) => ({ ...d, _id: d._id.toString() })) as TAdventurer[],
       totalPages: Math.ceil(Number(count) / ITEMS_PER_PAGE)
     };
   } catch (error) {

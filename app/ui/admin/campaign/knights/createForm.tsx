@@ -2,7 +2,7 @@
 
 import { useFormState } from 'react-dom';
 
-import { create } from '@/lib/quests/actions';
+import { create } from '@/lib/campaign/quests/actions';
 import { FormState } from '@/types/response.model';
 import Input from '@/ui/inputs/textInput';
 

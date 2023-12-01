@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 import noProfile from '@/assets/images/no_profile.png';
 
-import { getData } from '@/lib/quests/data';
-import UpdateForm from '@/ui/admin/quests/updateForm';
+import { getData } from '@/lib/campaign/quests/data';
+import UpdateForm from '@/ui/admin/campaign/knights/updateForm';
 
 type Props = {
   params: {

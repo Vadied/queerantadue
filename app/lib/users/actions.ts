@@ -3,7 +3,6 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 
 import { User } from './User';
 import { FormState } from '@/types/response.model';

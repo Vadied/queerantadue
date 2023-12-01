@@ -1,4 +1,4 @@
-import CreateForm from '@/ui/admin/quests/createForm';
+import CreateForm from '@/ui/admin/campaign/knights/createForm';
 
 const Page = async () => {
   return (

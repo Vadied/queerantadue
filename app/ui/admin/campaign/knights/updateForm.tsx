@@ -2,7 +2,7 @@
 
 import { useFormState } from 'react-dom';
 
-import { update } from '@/lib/quests/actions';
+import { update } from '@/lib/campaign/quests/actions';
 import { FormState } from '@/types/response.model';
 import Input from '@/ui/inputs/textInput';
 import { TAdventurer } from '@/types/adventurer';

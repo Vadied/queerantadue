@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 
-import { getDataFiltered } from '@/lib/quests/data';
+import { getDataFiltered } from '@/lib/campaign/quests/data';
 import { Pagination, Search } from '@/ui';
-import Table from '@/ui/admin/quests/table';
+import Table from '@/ui/admin/campaign/knights/table';
 import { admin } from '@/assets/constants/navigation';
 
 type Props = {
@@ -24,11 +24,18 @@ const Page = async ({ searchParams }: Props) => {
     <div className="bg-background-light p-5 rounded">
       <div className="flex flex-wrap justify-between mb-4">
         <Search placeholder="Cerca avventuriero per nome" />
-        <Link href={`${admin.quests.href}/new`}>
-          <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
-            <PlusCircleIcon height={20} /> Aggiungi
-          </button>
-        </Link>
+        <div className="flex gap-4">
+          <Link href={admin.campaign.quests.href}>
+            <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
+              Missioni
+            </button>
+          </Link>
+          <Link href={`${admin.queerantatre.questions.href}/new`}>
+            <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
+              <PlusCircleIcon height={20} /> Aggiungi
+            </button>
+          </Link>
+        </div>
       </div>
       <Table data={data} />
       <Pagination totalPages={totalPages} />

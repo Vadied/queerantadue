@@ -16,11 +16,10 @@ const FormSchema = z.object({
   surname: z.string({
     invalid_type_error: 'Please insert an surname.'
   }),
-  email: z.string({
-    invalid_type_error: 'Please insert an email.'
+  character: z.string({
+    invalid_type_error: 'Please insert a character.'
   }),
   isActive: z.boolean(),
-  points: z.string()
 });
 
 const Create = FormSchema.omit({
@@ -63,8 +62,6 @@ export const create = async (prevState: FormState, formData: FormData) => {
       email,
       points: 0,
       isActive: true,
-      createdAt: date,
-      updatedAt: date
     });
   } catch (error) {
     // If a database error occurs, return a more specific error.
@@ -73,8 +70,8 @@ export const create = async (prevState: FormState, formData: FormData) => {
     };
   }
 
-  revalidatePath(admin.quests.href);
-  redirect(admin.quests.href);
+  revalidatePath(admin.campaign.knights.href);
+  redirect(admin.campaign.knights.href);
 };
 
 export const update = async (
@@ -97,7 +94,6 @@ export const update = async (
 
   // Prepare data for insertion into the database
   const { email, points } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
     await Adventurers.updateOne(
@@ -105,7 +101,6 @@ export const update = async (
       {
         email,
         points,
-        updatedAt: date
       }
     );
   } catch (error) {
@@ -114,8 +109,8 @@ export const update = async (
     };
   }
 
-  revalidatePath(admin.quests.href);
-  redirect(admin.quests.href);
+  revalidatePath(admin.campaign.knights.href);
+  redirect(admin.campaign.knights.href);
 };
 
 export const toggleData = async (formData: FormData) => {
@@ -134,25 +129,16 @@ export const toggleData = async (formData: FormData) => {
       message: 'Database Error: Failed to Update.'
     };
   }
-  revalidatePath(admin.quests.href);
+  revalidatePath(admin.campaign.knights.href);
 };
 
-export const addPoint = async (formData: FormData) => {
-  const date = new Date().toISOString().split('T')[0];
+export const deleteData = async (formData: FormData) => {
   try {
-    const points = formData.get('points');
     await connect();
-    await Adventurers.updateOne(
-      { slug: formData.get('slug') },
-      {
-        $inc: { points: 1 },
-        updatedAt: date
-      }
-    );
+    await Adventurers.deleteOne({ _id: formData.get('_id') });
+
   } catch (error) {
-    return {
-      message: 'Database Error: Failed to Update.'
-    };
+    return { message: 'Database Error: Failed to Delete.' };
   }
-  revalidatePath(admin.quests.href);
+  revalidatePath(admin.queerantatre.categories.href);
 };

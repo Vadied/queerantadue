@@ -25,7 +25,7 @@ const Input = ({
       <label htmlFor={name} className="text-sm">
         {label}
       </label>
-      <div>
+      <div className='mb-2'>
         <input
           className="p-2 rounded border border-width-2 border-border-lighter text-text bg-background"
           id={name}
@@ -38,7 +38,7 @@ const Input = ({
         />
       </div>
       {errors?.[name] ? (
-        <div id={`${name}-error`} aria-live="polite" className="">
+        <div id={`${name}-error`} aria-live="polite" className="text-sm border border-danger text-danger rounded px-2 py-1">
           {errors?.[name].map((error: string) => <p key={error}>{error}</p>)}
         </div>
       ) : null}

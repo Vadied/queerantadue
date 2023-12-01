@@ -1,4 +1,5 @@
 const queerantatre = {
+  name: 'Queerantatre',
   categories: {
     name: 'Categorie',
     href: '/admin/queerantatre/categories'
@@ -9,9 +10,16 @@ const queerantatre = {
   }
 };
 
-const quests = {
-  name: 'Avventurieri',
-  href: '/admin/quests'
+const campaign = {
+  name: 'Campagna',
+  knights: {
+    name: 'Cavalieri',
+    href: '/admin/campaign/knights'
+  },
+  quests: {
+    name: 'Avventure',
+    href: '/admin/campaign/quests'
+  }
 };
 
 const users = {
@@ -24,7 +32,7 @@ export const admin = {
   name: 'Admin',
   href: '/admin',
   queerantatre,
-  quests,
+  campaign,
   users
 };
 

@@ -1,5 +1,4 @@
 import { Schema, models, model } from "mongoose";
-import autopopulate from "mongoose-autopopulate";
 
 const schema = new Schema(
   {
@@ -12,23 +11,20 @@ const schema = new Schema(
       type: String,
       required: true,
     },
-    surname: {
+    quest: {
       type: String,
       required: true,
     },
-    email: {
+    title: {
       type: String,
       required: true,
-      unique: true,
     },
     points: {
       type: Number,
-      default: 0,
+      default: 1,
     },
   },
   { timestamps: true }
 );
 
-schema.plugin(autopopulate);
-
-export const Adventurers = models.Adventurers || model("Adventurers", schema);
+export const Quests = models.Quests || model("Quests", schema);
