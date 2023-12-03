@@ -79,7 +79,7 @@ const authOptions = {
 
         return true;
       } catch (error: any) {
-        console.log('error', error);
+        console.error('error', error);
         return false;
       }
     }

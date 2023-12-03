@@ -113,7 +113,6 @@ export const update = async (
 export const deleteData = async (formData: FormData) => {
   try {
     await connect();
-    console.log(formData);
     await Quests.deleteOne({ _id: formData.get('_id') });
   } catch (error) {
     return { message: 'Database Error: Failed to Delete.' };

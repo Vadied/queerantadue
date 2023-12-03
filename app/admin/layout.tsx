@@ -17,11 +17,11 @@ type Props = {
   children: ReactNode;
 };
 export default async function RootLayout({ children }: Props) {
-  const session: Session | null = await getServerSession(authOptions);
-  if (!session?.user) redirect(login.href);
+  // const session: Session | null = await getServerSession(authOptions);
+  // if (!session?.user) redirect(login.href);
 
   return (
-    <Provider session={session}>
+    // <Provider session={session}>
       <div className="flex h-full">
         <Sidebar />
         <div className="flex-grow p-4">
@@ -29,6 +29,6 @@ export default async function RootLayout({ children }: Props) {
           {children}
         </div>
       </div>
-    </Provider>
+    // </Provider>
   );
 }

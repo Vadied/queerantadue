@@ -65,8 +65,6 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
 
     const [data, count] = await Promise.all([getData, getCount]);
 
-    console.log(data)
-
     return {
       data: data.map((d) => ({
         ...d,

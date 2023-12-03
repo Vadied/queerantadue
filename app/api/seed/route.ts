@@ -34,7 +34,6 @@ const handler = async (
     });
 
     const createData = async (q: any, index: number) => {
-      console.log('index', index);
       const slug = await getSlug(ActualQuestion);
       return ActualQuestion.create({
         slug,
