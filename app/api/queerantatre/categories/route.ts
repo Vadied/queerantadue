@@ -1,7 +1,10 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { getAllData } from '@/lib/queerantatre/categories/data';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+  req: Request | NextRequest,
+  res: Response | NextResponse
+) => {
   const data = await getAllData();
   if (!data) return new Response('Failed to fetch data.');
 
