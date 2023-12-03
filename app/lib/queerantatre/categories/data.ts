@@ -10,10 +10,12 @@ export const getData = async (code: string) => {
   noStore();
   try {
     await connect();
-    const data = await ActualCategory.findOne({ code }).lean();
+    const data: TActualCategory | null = await ActualCategory.findOne({
+      code
+    }).lean();
     if (!data) return null;
 
-    return { ...data, _id: data._id?.toString() } as TActualCategory;
+    return { ...data, _id: data._id?.toString() };
   } catch (error) {
     console.error('Failed to fetch data:', error);
     return null;
@@ -24,10 +26,10 @@ export const getAllData = async () => {
   noStore();
   try {
     await connect();
-    const data = await ActualCategory.find().lean();
+    const data: TActualCategory[] = await ActualCategory.find().lean();
     if (!data) return [];
 
-    return data as TActualCategory[];
+    return data;
   } catch (error) {
     console.error('Failed to fetch data:', error);
     return [];
@@ -47,7 +49,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
         { code: { $regex: new RegExp(query, 'i') } }
       ]
     };
-    const getData = ActualCategory.find(condition)
+    const getData: Promise<TActualCategory[]> = ActualCategory.find(condition)
       .skip(offset)
       .limit(ITEMS_PER_PAGE)
       .sort({ updatedAt: -1 })
@@ -58,7 +60,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
     const [data, count] = await Promise.all([getData, getCount]);
 
     return {
-      data: data as TActualCategory[],
+      data,
       totalPages: Math.ceil(Number(count) / ITEMS_PER_PAGE)
     };
   } catch (error) {
