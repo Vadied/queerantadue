@@ -66,6 +66,7 @@ const authOptions = {
       try {
         await connect();
         const user = await User.findOne({ email: profile?.email || '' });
+        console.log(user)
         if (!user) return false;
 
         if (profile?.picture && user.image !== profile?.picture) {

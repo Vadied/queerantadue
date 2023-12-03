@@ -8,7 +8,6 @@ import { User } from './User';
 import { FormState } from '@/types/response.model';
 import connect from '@/lib//database';
 import { admin, login } from '@/assets/constants/navigation';
-import { getSlug } from '../utils';
 
 const FormSchema = z.object({
   name: z.string({
@@ -53,17 +52,19 @@ export const create = async (prevState: FormState, formData: FormData) => {
   const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
-    const slug = await getSlug(User);
-    User.create({
+    const slug = `${name.trim().toLowerCase()}-${surname.trim().toLowerCase()}`;
+    await User.create({
       slug,
       name,
       surname,
       email,
+      token: slug,
       isActive: true,
       createdAt: date,
       updatedAt: date
     });
   } catch (error) {
+    console.error('database error', error);
     return {
       message: 'Database Error: Failed to Create.'
     };
