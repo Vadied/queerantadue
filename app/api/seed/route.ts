@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { getAllData } from '@/lib/queerantatre/categories/data';
 import connect from '@/lib/database';
 
@@ -6,7 +6,10 @@ import questions from '@/assets/constants/seeds/actualQuestions';
 import { ActualQuestion } from '@/lib/queerantatre/questions/ActualQuestion';
 import { getSlug } from '@/lib/utils';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (
+  req: Request | NextRequest,
+  res: Response | NextResponse
+) => {
   try {
     connect();
     const categories = await getAllData();
@@ -31,15 +34,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     const createData = async (q: any, index: number) => {
-        console.log('index', index)
-          const slug = await getSlug(ActualQuestion);
-          return ActualQuestion.create({
-            slug,
-            text: q.text,
-            answer: q.answer,
-            categories: q.categories
-          });
-      }
+      console.log('index', index);
+      const slug = await getSlug(ActualQuestion);
+      return ActualQuestion.create({
+        slug,
+        text: q.text,
+        answer: q.answer,
+        categories: q.categories
+      });
+    };
 
     const promises = data.map(createData);
 
