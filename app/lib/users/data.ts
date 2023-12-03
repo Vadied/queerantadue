@@ -10,10 +10,10 @@ export const getUser = async (slug: string) => {
   noStore();
   try {
     await connect();
-    const data = await User.findOne({ slug }).lean();
+    const data: TUser | null = await User.findOne({ slug }).lean();
     if (!data) return null;
 
-    return { ...data, _id: data._id?.toString() } as TUser;
+    return { ...data, _id: data._id?.toString() };
   } catch (error) {
     console.error('Failed to fetch user:', error);
     return null;
@@ -27,7 +27,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     await connect();
-    const getData = User.find({
+    const getData: Promise<TUser[]> = User.find({
       name: { $regex: new RegExp(query, 'i') },
       isActive: true
     })
@@ -41,7 +41,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
     const [data, count] = await Promise.all([getData, getCount]);
 
     return {
-      data: data as TUser[],
+      data,
       totalPages: Math.ceil(Number(count) / ITEMS_PER_PAGE)
     };
   } catch (error) {

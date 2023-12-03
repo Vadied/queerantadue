@@ -1,4 +1,5 @@
 import { Schema, models, model } from 'mongoose';
+import autopopulate from 'mongoose-autopopulate';
 
 const schema = new Schema(
   {

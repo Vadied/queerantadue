@@ -2,13 +2,16 @@
 
 import { useFormState } from 'react-dom';
 
-import { create } from '@/lib/campaign/quests/actions';
+import { create } from '@/lib/campaign/knights/actions';
 import { FormState } from '@/types/response.model';
-import Input from '@/ui/inputs/textInput';
+import { useCampaignContext } from '@/contexts/campaign';
+import { Select, Input } from '@/ui';
 
 const CreateForm = () => {
   const initialState: FormState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(create, initialState);
+
+  const { quests = [] } = useCampaignContext();
 
   return (
     <form action={dispatch} className="flex flex-wrap justify-between gap-5">
@@ -27,12 +30,24 @@ const CreateForm = () => {
         placeholder="Inserisci cognome"
       />
       <Input
-        name="email"
-        label="Email"
-        type="email"
+        name="character"
+        label="Personaggio"
         required={true}
         errors={state.errors}
-        placeholder="Inserisci email"
+        placeholder="Inserisci nome del personaggio"
+      />
+
+      <Select 
+        label="Missioni"
+        name="quests"
+        multiple={true}
+        value={[]}
+        errors={state.errors}
+        placeholder="Scegli le missioni compiute"
+        options={quests.map((category) => ({
+          value: category._id.toString(),
+          label: category.name
+        }))}
       />
 
       <button

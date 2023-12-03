@@ -4,15 +4,7 @@ import connect from '@/lib/database';
 
 import questions from '@/assets/constants/seeds/actualQuestions';
 import { ActualQuestion } from '@/lib/queerantatre/questions/ActualQuestion';
-import { createSlug } from '@/lib/utils';
-
-const getSlug = async (): Promise<string> => {
-  const slug = createSlug();
-  const count = await ActualQuestion.countDocuments({ slug });
-  if (!Number(count)) return slug;
-
-  return getSlug();
-};
+import { getSlug } from '@/lib/utils';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -40,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const createData = async (q: any, index: number) => {
         console.log('index', index)
-          const slug = await getSlug();
+          const slug = await getSlug(ActualQuestion);
           return ActualQuestion.create({
             slug,
             text: q.text,

@@ -9,12 +9,13 @@ export const getData = async (slug: string) => {
   noStore();
   try {
     await connect();
-    const data = await Adventurers.findOne({ slug }).lean();
+    const data: TAdventurer | null = await Adventurers.findOne({ slug }).lean();
     if (!data) return null;
 
     return {
       ...data,
-      _id: data._id?.toString()
+      _id: data._id.toString(),
+      quests: data.quests.map((c: string) => c.toString())
     } as TAdventurer;
   } catch (error) {
     console.error('Failed to fetch data:', error);
@@ -33,7 +34,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
       name: { $regex: new RegExp(query, 'i') }
     };
 
-    const getData = Adventurers.find(condition)
+    const getData: Promise<TAdventurer[]> = Adventurers.find(condition)
       .skip(offset)
       .limit(ITEMS_PER_PAGE)
       .sort({ updatedAt: -1 })
@@ -44,7 +45,11 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
     const [data, count] = await Promise.all([getData, getCount]);
 
     return {
-      data: data.map((d) => ({ ...d, _id: d._id.toString() })) as TAdventurer[],
+      data: data.map((d) => ({
+        ...d,
+        _id: d._id.toString(),
+        quests: d.quests.map((c: string) => c.toString())
+      })) as TAdventurer[],
       totalPages: Math.ceil(Number(count) / ITEMS_PER_PAGE)
     };
   } catch (error) {

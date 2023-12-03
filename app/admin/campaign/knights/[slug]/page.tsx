@@ -1,8 +1,4 @@
-import Image from 'next/image';
-
-import noProfile from '@/assets/images/no_profile.png';
-
-import { getData } from '@/lib/campaign/quests/data';
+import { getData } from '@/lib/campaign/knights/data';
 import UpdateForm from '@/ui/admin/campaign/knights/updateForm';
 
 type Props = {
@@ -20,9 +16,6 @@ const Page = async ({ params }: Props) => {
 
   return (
     <div className="flex gap-8">
-      <div className="bg-background-light p-5 rounded font-bold test-test-light">
-        {data.name} {data.surname}
-      </div>
       <div className="flex-grow bg-background-light p-5 rounded">
         <UpdateForm data={data} />
       </div>

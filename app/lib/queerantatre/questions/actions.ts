@@ -7,16 +7,8 @@ import { redirect } from 'next/navigation';
 import connect from '@/lib/database';
 import { ActualQuestion } from './ActualQuestion';
 import { FormState } from '@/types/response.model';
-import { createSlug } from '@/lib/utils';
+import { getSlug } from '@/lib/utils';
 import { admin } from '@/assets/constants/navigation';
-
-const getSlug = async (): Promise<string> => {
-  const slug = createSlug();
-  const count = await ActualQuestion.countDocuments({ slug });
-  if (!Number(count)) return slug;
-
-  return getSlug();
-};
 
 const FormSchema = z.object({
   text: z.string({
@@ -50,18 +42,14 @@ export const create = async (prevState: FormState, formData: FormData) => {
 
   // Prepare data for insertion into the database
   const { text, answer, categories } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
-
-    const slug = await getSlug();
+    const slug = await getSlug(ActualQuestion);
     await ActualQuestion.create({
       slug,
       text,
       answer,
       categories: categories.split(','),
-      createdAt: date,
-      updatedAt: date
     });
   } catch (error) {
     // If a database error occurs, return a more specific error.
@@ -96,8 +84,6 @@ export const update = async (
 
   // Prepare data for insertion into the database
   const { text, answer, categories } = validatedFields.data;
-  console.log(text, answer, categories );
-  const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
     await ActualQuestion.updateOne(
@@ -106,7 +92,6 @@ export const update = async (
         text,
         answer,
         categories: categories.split(','),
-        updatedAt: date
       }
     );
   } catch (error) {

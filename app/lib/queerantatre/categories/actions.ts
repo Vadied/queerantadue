@@ -39,14 +39,11 @@ export const create = async (prevState: FormState, formData: FormData) => {
 
   // Prepare data for insertion into the database
   const { label, code } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
     await ActualCategory.create({
       label,
       code,
-      createdAt: date,
-      updatedAt: date
     });
   } catch (error) {
     // If a database error occurs, return a more specific error.
@@ -80,7 +77,6 @@ export const update = async (
 
   // Prepare data for insertion into the database
   const { label, code } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
     await ActualCategory.updateOne(
@@ -88,7 +84,6 @@ export const update = async (
       {
         label,
         code,
-        updatedAt: date
       }
     );
   } catch (error) {

@@ -5,12 +5,28 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 import { TActualQuestion } from '@/types/queerantatre.model';
 import { deleteData } from '@/lib/queerantatre/questions/actions';
+import { useQueerantatreContext } from '@/contexts/queerantatre';
 
 type Props = {
   data: TActualQuestion[];
 };
 const Table = ({ data }: Props) => {
-  console.log(data)
+  const { categories = [] } = useQueerantatreContext();
+
+  const getCategories = (question: TActualQuestion) => {
+    if (!question.categories.length) return 'Nessuna';
+
+    return question.categories
+      .map((_id) => {
+        const cat = categories.find((cat) => cat._id === _id);
+        if (!cat) return '';
+
+        return cat.label;
+      })
+      .filter((cat) => !!cat)
+      .join(', ');
+  };
+
   return (
     <table className="w-full mb-5">
       <thead>
@@ -26,7 +42,7 @@ const Table = ({ data }: Props) => {
           <tr key={item._id}>
             <td className="p-2 max-w-xs">{item.text}</td>
             <td className="p-2 max-w-xs">{item.answer}</td>
-            <td className="p-2">{item.categories.join(', ')}</td>
+            <td className="p-2">{getCategories(item)}</td>
             <td className="p-2">
               <div className="flex flex-col gap-2">
                 <Link href={`/admin/queerantatre/questions/${item.slug}`}>

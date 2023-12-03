@@ -7,8 +7,8 @@ import { redirect } from 'next/navigation';
 import { User } from './User';
 import { FormState } from '@/types/response.model';
 import connect from '@/lib//database';
-import { createSlug } from '@/lib/utils';
 import { admin, login } from '@/assets/constants/navigation';
+import { getSlug } from '../utils';
 
 const FormSchema = z.object({
   name: z.string({
@@ -35,14 +35,6 @@ const Update = FormSchema.omit({
   isActive: true
 });
 
-const getSlug = async (): Promise<string> => {
-  const slug = createSlug();
-  const count = await User.countDocuments({ slug });
-  if (!Number(count)) return slug;
-
-  return getSlug();
-};
-
 export const create = async (prevState: FormState, formData: FormData) => {
   const validatedFields = Create.safeParse({
     name: formData.get('name'),
@@ -61,7 +53,7 @@ export const create = async (prevState: FormState, formData: FormData) => {
   const date = new Date().toISOString().split('T')[0];
   try {
     await connect();
-    const slug = await getSlug();
+    const slug = await getSlug(User);
     User.create({
       slug,
       name,

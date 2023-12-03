@@ -21,15 +21,14 @@ type Props = {
 export const QueerantatreProvider = ({ children }: Props) => {
   const [categories, setCategories] = useState(initialActualCategories);
 
-  const getCategories = () => {
-    return fetch('/api/queerantatre/categories')
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const getCategories = async () => {
+    try {
+      const res = await fetch('/api/queerantatre/categories');
+      const data = await res.json();
+      setCategories(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {

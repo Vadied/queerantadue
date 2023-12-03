@@ -11,7 +11,7 @@ const Page = async ({ params }: Props) => {
   const data = await getData(slug);
   if (!data)
     return (
-      <div className="w-full text-center">Nessun avventuriero trovato</div>
+      <div className="w-full text-center">Nessuna missione trovata</div>
     );
 
   return (

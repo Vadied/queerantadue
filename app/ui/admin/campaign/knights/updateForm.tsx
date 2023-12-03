@@ -2,10 +2,11 @@
 
 import { useFormState } from 'react-dom';
 
-import { update } from '@/lib/campaign/quests/actions';
+import { update } from '@/lib/campaign/knights/actions';
 import { FormState } from '@/types/response.model';
-import Input from '@/ui/inputs/textInput';
-import { TAdventurer } from '@/types/adventurer';
+import { useCampaignContext } from '@/contexts/campaign';
+import { Select, Input } from '@/ui';
+import { TAdventurer } from '@/types/campaign.model';
 
 type Props = {
   data: TAdventurer;
@@ -15,25 +16,30 @@ const UpdateForm = ({ data }: Props) => {
   const updateWithRef = update.bind(null, data.slug);
   const [state, dispatch] = useFormState(updateWithRef, initialState);
 
+  const { quests = [] } = useCampaignContext();
+
   return (
     <form action={dispatch} className="flex flex-wrap justify-between gap-5">
       <Input
-        name="email"
-        label="Email"
-        type="email"
-        value={data.email}
+        name="character"
+        label="Personaggio"
         required={true}
+        value={data.character}
         errors={state.errors}
-        placeholder="Inserisci email"
+        placeholder="Inserisci nome del personaggio"
       />
-      <Input
-        name="points"
-        label="Punti"
-        type="number"
-        value={data.points}
-        required={true}
+
+      <Select
+        label="Missioni"
+        name="quests"
+        multiple={true}
+        value={data.quests}
         errors={state.errors}
-        placeholder="Inserisci punti"
+        placeholder="Scegli le missioni compiute"
+        options={quests.map((category) => ({
+          value: category._id.toString(),
+          label: category.name
+        }))}
       />
 
       <button

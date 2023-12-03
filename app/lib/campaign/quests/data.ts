@@ -6,17 +6,31 @@ import { Quests } from './Quests';
 import { ITEMS_PER_PAGE } from '@/assets/constants';
 import { TQuest } from '@/types/campaign.model';
 
+export const getAllData = async () => {
+  noStore();
+  try {
+    await connect();
+    const data: TQuest[] | null = await Quests.find().lean();
+    if (!data) return [];
+
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    return [];
+  }
+};
+
 export const getData = async (slug: string) => {
   noStore();
   try {
     await connect();
-    const data = await Quests.findOne({ slug }).lean();
+    const data: TQuest | null = await Quests.findOne({ slug }).lean();
     if (!data) return null;
 
     return {
       ...data,
       _id: data._id?.toString()
-    } as TQuest;
+    };
   } catch (error) {
     console.error('Failed to fetch data:', error);
     return null;
@@ -34,7 +48,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
       name: { $regex: new RegExp(query, 'i') }
     };
 
-    const getData = Quests.find(condition)
+    const getData: Promise<TQuest[]> = Quests.find(condition)
       .skip(offset)
       .limit(ITEMS_PER_PAGE)
       .sort({ updatedAt: -1 })
@@ -45,7 +59,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
     const [data, count] = await Promise.all([getData, getCount]);
 
     return {
-      data: data.map((d) => ({ ...d, _id: d._id.toString() })) as TQuest[],
+      data: data.map((d) => ({ ...d, _id: d._id.toString() })),
       totalPages: Math.ceil(Number(count) / ITEMS_PER_PAGE)
     };
   } catch (error) {

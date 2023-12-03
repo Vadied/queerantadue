@@ -7,34 +7,19 @@ import { ActualQuestion } from '@/lib/queerantatre/questions/ActualQuestion';
 import { TActualQuestion } from '@/types/queerantatre.model';
 
 import { ITEMS_PER_PAGE } from '@/assets/constants';
-import { ActualCategory } from '../categories/ActualCategory';
-
-const parseCategories = (
-  categories: { _id: string; label: string }[],
-  ids: string[]
-) => {
-  if (!ids.length) return ['Nessuna'];
-
-  return ids.map((id: string) => {
-    const category = categories.find((c) => id.toString() === c._id.toString());
-    if (!category) return '';
-
-    return category.label;
-  });
-};
 
 export const getData = async (slug: string) => {
   noStore();
   try {
     await connect();
-    const data = await ActualQuestion.findOne({ slug });
+    const data: TActualQuestion | null = await ActualQuestion.findOne({ slug });
     if (!data) return null;
 
     return {
       ...data,
       _id: data._id?.toString(),
       categories: data.categories.map((c: string) => c.toString())
-    } as TActualQuestion;
+    };
   } catch (error) {
     console.error('Database Error:', error);
     return null;
@@ -45,10 +30,10 @@ export const getAllData = async () => {
   noStore();
   try {
     await connect();
-    const data = await ActualQuestion.find().lean();
+    const data: TActualQuestion[] = await ActualQuestion.find().lean();
     if (!data) return [];
 
-    return data as TActualQuestion[];
+    return data;
   } catch (error) {
     console.error('Failed to fetch data:', error);
     return [];
@@ -65,7 +50,7 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
     const condition = {
       text: { $regex: new RegExp(query, 'i') }
     };
-    const getData = ActualQuestion.find(condition, {
+    const getData: Promise<TActualQuestion[]> = ActualQuestion.find(condition, {
       text: true,
       slug: true,
       categories: true,
@@ -76,22 +61,18 @@ export const getDataFiltered = async (query: string, currentPage: number) => {
       .sort({ updatedAt: -1 })
       .lean();
 
-    const getCategories = ActualCategory.find({}, '_id label');
-
     const getCount = ActualQuestion.countDocuments(condition);
 
-    const [data, categories, count] = await Promise.all([
-      getData,
-      getCategories,
-      getCount
-    ]);
+    const [data, count] = await Promise.all([getData, getCount]);
+
+    console.log(data)
 
     return {
       data: data.map((d) => ({
         ...d,
-        _id: d._id?.toString(),
-        categories: parseCategories(categories, d.categories)
-      })) as TActualQuestion[],
+        _id: d._id.toString(),
+        categories: d.categories.map((c: string) => c.toString())
+      })),
       totalPages: Math.ceil(Number(count) / ITEMS_PER_PAGE)
     };
   } catch (error) {

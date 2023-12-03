@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 
-import { getDataFiltered } from '@/lib/campaign/quests/data';
+import { getDataFiltered } from '@/lib/campaign/knights/data';
 import { Pagination, Search } from '@/ui';
 import Table from '@/ui/admin/campaign/knights/table';
 import { admin } from '@/assets/constants/navigation';
@@ -30,7 +30,7 @@ const Page = async ({ searchParams }: Props) => {
               Missioni
             </button>
           </Link>
-          <Link href={`${admin.queerantatre.questions.href}/new`}>
+          <Link href={`${admin.campaign.knights.href}/new`}>
             <button className="flex gap-2 items-center p-2 bg-button-primary text-text border-none rounded pointer">
               <PlusCircleIcon height={20} /> Aggiungi
             </button>
