@@ -4,7 +4,9 @@ import connect from '@/lib/database';
 
 import questions from '@/assets/constants/seeds/actualQuestions';
 import { ActualQuestion } from '@/lib/queerantatre/questions/ActualQuestion';
+import actualcategories from '@/assets/constants/seeds/actualCategories';
 import { getSlug } from '@/lib/utils';
+import { ActualCategory } from '@/lib/queerantatre/categories/ActualCategory';
 
 const handler = async (
   req: Request | NextRequest,
@@ -12,6 +14,10 @@ const handler = async (
 ) => {
   try {
     connect();
+    await Promise.all(actualcategories.map(cat => {
+      return ActualCategory.create(cat)
+    }))
+    
     const categories = await getAllData();
 
     const dataCat = categories.map((category) => {
@@ -21,17 +27,19 @@ const handler = async (
       };
     });
 
-    const data = questions.map((question) => {
-      return {
-        ...question,
-        categories: question.categories.map((category) => {
-          const cat = dataCat.find((c) => c.code === category);
-          if (!cat) return null;
+    const data = questions
+      .map((question) => {
+        return {
+          ...question,
+          categories: question.categories.map((category) => {
+            const cat = dataCat.find((c) => c.code === category);
+            if (!cat) return null;
 
-          return cat._id.toString();
-        })
-      };
-    });
+            return cat._id.toString();
+          })
+        };
+      })
+      .filter((c) => !!c);
 
     const createData = async (q: any, index: number) => {
       const slug = await getSlug(ActualQuestion);
