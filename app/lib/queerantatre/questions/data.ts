@@ -12,7 +12,7 @@ export const getData = async (slug: string) => {
   noStore();
   try {
     await connect();
-    const data: TActualQuestion | null = await ActualQuestion.findOne({ slug });
+    const data: TActualQuestion | null = await ActualQuestion.findOne({ slug }).lean();
     if (!data) return null;
 
     return {
